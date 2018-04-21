@@ -8,6 +8,4 @@ parser.add_argument('-l', '--language', required = True, type = str, dest = 'lan
                     help= 'The language of code' )
 
 
-
-
 args = parser.parse_args()
