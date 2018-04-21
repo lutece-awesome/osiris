@@ -1,12 +1,30 @@
-SUPPORT_LANGUAGE_LIST=[
-    'GNU G++17',
-    'CLANG++17',
-    'GNU GCC 7.3',
-    'Python 3.6.5',
-    'Python 2.7.12',
-    'Java 1.9.0',
-    'Go 1.9.2',
-    'Ruby 2.5.1',
-    'Rust 1.25.0',
-    'Haskell'
-]
+
+SUPPORT_LANGUAGE = {
+    'GNU G++17':{
+        'docker_repo' : 'gcc:7.3.0',
+        'extension' : 'cpp',
+        'compile_command' : 'g++ -w -O2 -DONLINE_JUDGE --std=gnu++17 -fmax-errors=15' +
+                            '{source_file}.{extension} -lm -o {source_file}.bin'
+    },
+
+    'CLANG++17':{
+        'extension' : 'cpp',
+    },
+
+    'GNU GCC 7.3':{
+        'extension' : 'c',
+    },
+
+    'Python 3.6.5':{
+        'extension' : 'py',        
+        'compile_command' : 'mv {source_file}.{extension} {source_file}.bin'
+    },
+
+    'Python 2.7.12':{
+        'extension' : 'py',        
+    },
+
+    'Java 1.9.0':{
+        'extension' : 'java',        
+    },
+}

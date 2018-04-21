@@ -1,0 +1,2 @@
+docker==3.2.1
+docker-pycreds==0.2.2
