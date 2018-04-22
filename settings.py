@@ -1,32 +1,8 @@
-
-
-# The list of SUPPORT_LANGUAGE
-SUPPORT_LANGUAGE = {
-    'GNU G++17':{
-        'docker_repo' : 'gcc:7.3.0',
-        'extension' : 'cpp',
-        'compile_command' : 'g++ -w -O2 -DONLINE_JUDGE --std=gnu++17 -fmax-errors=15' +
-                            '{source_file}.{extension} -lm -o {source_file}.bin'
-    },
-
-    'CLANG++17':{
-        'extension' : 'cpp',
-    },
-
-    'GNU GCC 7.3':{
-        'extension' : 'c',
-    },
-
-    'Python 3.6.5':{
-        'extension' : 'py',        
-        'compile_command' : 'mv {source_file}.{extension} {source_file}.bin'
-    },
-
-    'Python 2.7.12':{
-        'extension' : 'py',        
-    },
-
-    'Java 1.9.0':{
-        'extension' : 'java',        
-    },
-}
+# HTTP or HTTPS?
+protocol = 'http://'
+# PORT
+PORT = '8000'
+# Server ip address
+web_server_ip = '127.0.0.1'
+# fetch url
+fetch_submission_url =  protocol + web_server_ip + ':' + PORT + '/' + 'submission/fetch/judge'
