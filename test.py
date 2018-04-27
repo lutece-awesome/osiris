@@ -20,9 +20,7 @@ if __name__ == '__main__':
     #print( create_tempfile( 1 , 'GNU G++17' , '#include <iostream>' ) )
     ret = Compile(
         lang = 'GNU G++17',
-        code = ' \
-            struct x struct z<x(x(x(x(x(x(x(x(x(x(x(x(x(x(x(x(x(y,x(y><y*,x(y*w>v<y*,w,x{} \
-        ',
+        code = open( 'testcase/good.cpp' , "r" ).read(),
         thread_id = 1
     )
     print( ret )

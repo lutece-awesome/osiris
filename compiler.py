@@ -31,7 +31,6 @@ def Compile( lang , code ,  thread_id ):
     )
     if st != 'Success':
         return st , None
-    sourcefile_withextension = sourcefile + '.' + SUPPORT_LANGUAGE[lang]['extension']
     try:
         s = client.containers.create(
             image = docker_repo_arguments.format(
@@ -40,7 +39,7 @@ def Compile( lang , code ,  thread_id ):
                 tag = SUPPORT_LANGUAGE[lang]['docker_repo_tag'],
                 mem_limit = settings.COMPILE_MEMORY,
             ),
-            volumes={ os.path.join( settings.work_dir , sourcefile_withextension ) : {'bind': os.path.join( '/opt' , sourcefile_withextension ) , 'mode':'ro' } },
+            volumes={ os.path.join( settings.work_dir ) : {'bind':  '/opt' , 'mode':'rw' } },
             working_dir = '/opt',
             command = SUPPORT_LANGUAGE[lang]['compile_command'].format(
                 source_file = sourcefile,
