@@ -11,7 +11,7 @@ fetch_submission_url =  protocol + web_server_ip + ':' + PORT + '/' + 'submissio
 CDN_HUB_ADDRESS = 'registry.docker-cn.com/library'
 
 # compile 
-COMPILE_TIMEOUT = '5s' # 3 seconds
+COMPILE_TIMEOUT = '3s' # 3 seconds
 COMPILE_MEMORY = '256mb'
 
 # Judge data dir , this must be same as the story-line file system
@@ -19,3 +19,6 @@ data_dir = '/home/xiper/Desktop/Judge_Data'
 
 # Judge work dir
 work_dir = '/home/xiper/Desktop/Osiris-Judge-Core/work'
+
+# max error_msg_info, !!do not change this
+max_compile_error_length = 2048
