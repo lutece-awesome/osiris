@@ -6,7 +6,7 @@ SUPPORT_LANGUAGE = {
         'docker_repo' : 'gcc',
         'docker_repo_tag' : '7.3.0',
         'extension' : 'cpp',
-        'compile_command' : 'timeout -s KILL {compile_timeout} g++ -w -O2 -DONLINE_JUDGE --std=gnu++17 \
+        'compile_command' : 'g++ -w -O2 -DONLINE_JUDGE -fmax-errors=15 --std=gnu++17 \
                             {source_file}.{extension} -lm -o {source_file}.bin'
     },
 

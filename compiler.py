@@ -13,17 +13,24 @@ def create_tempfile( thread_id , lang , code ):
     if lang not in SUPPORT_LANGUAGE:
         return 'Unsupported Language'
     try:
-        f = open( 'work/' + source_file_name.format(
+        f = open( os.path.join(settings.work_dir , source_file_name.format(
             thread = thread_id,
             extension = SUPPORT_LANGUAGE[lang]['extension']
-        )   
+        ))   
         , 'w' )
         f.write( code )
     except:
-        return 'Judger Error'
+        return 'Judger Error' , None
     return 'Success' , 'main-' + str( thread_id )
 
-def Compile( lang , code , sourcefile ):
+def Compile( lang , code ,  thread_id ):
+    st , sourcefile = create_tempfile( 
+        thread_id = thread_id ,
+        lang = lang,
+        code = code
+    )
+    if st != 'Success':
+        return st , None
     sourcefile_withextension = sourcefile + '.' + SUPPORT_LANGUAGE[lang]['extension']
     try:
         s = client.containers.create(
@@ -36,27 +43,21 @@ def Compile( lang , code , sourcefile ):
             volumes={ os.path.join( settings.work_dir , sourcefile_withextension ) : {'bind': os.path.join( '/opt' , sourcefile_withextension ) , 'mode':'ro' } },
             working_dir = '/opt',
             command = SUPPORT_LANGUAGE[lang]['compile_command'].format(
-                compile_timeout = settings.COMPILE_TIMEOUT,
                 source_file = sourcefile,
                 extension = SUPPORT_LANGUAGE[lang]['extension'],
             ),
             auto_remove = False,
         )
         s.start()
-        s.wait()
-        print( 'Run Complete' )
-    except docker.errors.ContainerError as e:
-        compile_info_msg = e.stderr.decode('utf-8')[:min( len(e.stderr) , settings.max_compile_error_length )]
-        return 'Compile Error' , compile_info_msg
-    except:
-        return 'Compile Error' , 'Unknown Error'
+        ret = s.wait(
+            timeout = settings.COMPILE_TIMEOUT
+        )
+    except Exception as e:
+        return 'Compile Error' , str(e)
     finally:
-        print(s.logs())
-        s.remove( force = True )
-    return 'Success' , None
-
-if __name__ == '__main__':
-    s1 = time.clock()
-    #print( create_tempfile( 1 , 'GNU G++17' , '#include <iostream>' ) )
-    print( Compile( 'GNU G++17' , 'main' , 'main-1' )[1] )
-    print( 'time cost ' , time.clock() - s1 )
+        if 's' in dir():
+            compile_info_msg = s.logs()[:min( len(s.logs()) , settings.max_compile_error_length )]
+            s.remove( force = True ) # No matter how this container work, we should remove this container force finally
+    if ret['StatusCode'] == 0:
+        return 'Success' , None
+    return 'Compile Error' , compile_info_msg.decode( 'utf-8' )

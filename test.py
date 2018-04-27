@@ -1,5 +1,7 @@
 from fetch import fetch_waiting_submission
 from judger import judge
+from compiler import Compile
+import time
 
 def fetch_test():
     r = fetch_waiting_submission()
@@ -14,4 +16,14 @@ def fetch_test():
 
 
 if __name__ == '__main__':
-    fetch_test()
+    s1 = time.clock()
+    #print( create_tempfile( 1 , 'GNU G++17' , '#include <iostream>' ) )
+    ret = Compile(
+        lang = 'GNU G++17',
+        code = ' \
+            struct x struct z<x(x(x(x(x(x(x(x(x(x(x(x(x(x(x(x(x(y,x(y><y*,x(y*w>v<y*,w,x{} \
+        ',
+        thread_id = 1
+    )
+    print( ret )
+    print( 'time cost ' , time.clock() - s1 )
