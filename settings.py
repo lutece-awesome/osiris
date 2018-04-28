@@ -1,6 +1,3 @@
-# set cdn_hub address
-CDN_HUB_ADDRESS = 'registry.docker-cn.com/library'
-
 # compile 
 COMPILE_TIMEOUT = 2.0 # 2.0 seconds
 COMPILE_MEMORY = '256mb'
@@ -15,7 +12,7 @@ work_dir = '/home/xiper/Desktop/Osiris-Judge-Core/work'
 max_compile_error_length = 480
 
 # set docker repo arguments
-docker_repo_arguments = '{CDN_HUB}/{repo_lang}:{repo_tag}'
+docker_repo_arguments = '{repo_lang}:{repo_tag}'
 
 # set source file name arguments
 sourcefile_extension = '{sourcefile}.{extension}'

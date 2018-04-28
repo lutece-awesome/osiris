@@ -32,9 +32,7 @@ def Compile( lang , code , sourcefile ):
     try:
         s = client.containers.create(
             image = settings.docker_repo_arguments.format(
-                CDN_HUB = settings.CDN_HUB_ADDRESS,
-                repo_lang = language.get_repo_lang( lang ),
-                repo_tag = language.get_repo_tag( lang )
+                image = language.get_image( lang )
             ),
             mem_limit = settings.COMPILE_MEMORY,
             volumes={ os.path.join( settings.work_dir ) : {'bind':  '/opt' , 'mode':'rw' } },

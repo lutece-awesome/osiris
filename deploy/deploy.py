@@ -1,5 +1,8 @@
-import docker
+import os
+import settings
 
-client = docker.from_env()
+list_dir = list( filter( lambda x: x in settings.Lang , os.listdir() ) )
 
-client.images.pull( 'gcc:7.3.0' )
+for _ in list_dir:
+    running_arguments = 'docker build -t ' + settings.Lang[_] + ' ' + str( _ ) + '/'
+    os.system( running_arguments )

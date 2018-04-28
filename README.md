@@ -1,5 +1,10 @@
 # Osiris-Judge-Core
-An judge core based on Docker.
+[![Python](https://img.shields.io/badge/python-3.5.2-blue.svg?style=flat-square)](https://www.python.org/downloads/release/python-352/)
+
+
+
+
+Judge core based on Docker.
 
 ## Current Support Language
 
@@ -12,3 +17,22 @@ An judge core based on Docker.
 + Go 1.9.2
 + Ruby 2.5.1
 + Rust 1.25.0
+
+
+## Installation
+
++ Install `docker` first.
+<pre>
+    suao apt-get update
+    sudo apt-get install docker.io
+</pre>
+
++ Install requirements
+<pre>
+    pip3 install -r requirements/requirements.txt
+</pre>
+
++ Install judger's image
+<pre>
+    cd deploy && python3 deploy.py
+</pre>

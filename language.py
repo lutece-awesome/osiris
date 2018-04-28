@@ -3,8 +3,7 @@
 # The list of SUPPORT_LANGUAGE
 SUPPORT_LANGUAGE = {
     'GNU G++17':{
-        'docker_repo' : 'gcc',
-        'docker_repo_tag' : '7.3.0',
+        'image' : 'osiris-gcc:7.3.0',
         'extension' : 'cpp',
         'compile_command' : 'g++ -w -O2 -DONLINE_JUDGE -fmax-errors=15 --std=gnu++17 \
                             {source_file}.{extension} -lm -o {source_file}.bin'
@@ -42,8 +41,5 @@ def get_extension( lang ):
 def get_compile_command( lang ):
     return SUPPORT_LANGUAGE[lang]['compile_command']
 
-def get_repo_lang( lang ):
-    return SUPPORT_LANGUAGE[lang]['docker_repo']
-
-def get_repo_tag( lang ):
-    return SUPPORT_LANGUAGE[lang]['docker_repo_tag']
+def get_image( lang ):
+    return SUPPORT_LANGUAGE[lang]['image']
