@@ -11,7 +11,7 @@ client = docker.from_env()
 
 def create_tempfile( thread_id , lang , code ):
     if lang not in SUPPORT_LANGUAGE:
-        return 'Compile Error' , 'Unsupported Language'
+        return 'Compile Error' , 'Unsupported Language.'
     try:
         f = open( os.path.join(settings.work_dir , source_file_name.format(
             thread = thread_id,
@@ -20,7 +20,7 @@ def create_tempfile( thread_id , lang , code ):
         , 'w' )
         f.write( code )
     except:
-        return 'Judger Error' , None
+        return 'Judger Error' , 'Can not create target file.'
     return 'Success' , 'main-' + str( thread_id )
 
 def Compile( lang , code ,  thread_id ):

@@ -16,6 +16,9 @@ SUPPORT_LANGUAGE = {
 
     'GNU GCC 7.3':{
         'extension' : 'c',
+
+        'compile_command' : 'gcc -w -O2 -DONLINE_JUDGE -fmax-errors=15 --std=c11 \
+                            {source_file}.{extension} -lm -o {source_file}.bin'
     },
 
     'Python 3.6.5':{

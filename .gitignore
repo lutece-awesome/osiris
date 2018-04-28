@@ -101,3 +101,8 @@ ENV/
 .mypy_cache/
 
 .vscode/
+
+
+*.bin
+*.out
+do.c
