@@ -19,3 +19,6 @@ docker_repo_arguments = '{CDN_HUB}/{repo_lang}:{repo_tag}'
 
 # set source file name arguments
 sourcefile_extension = '{sourcefile}.{extension}'
+
+# set source file running, !!do not change this
+sourcefile_running = '{sourcefile}.bin'
