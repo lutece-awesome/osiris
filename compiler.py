@@ -50,7 +50,7 @@ def Compile( lang , code , sourcefile ):
             timeout = settings.COMPILE_TIMEOUT
         )
     except Exception as e:
-        return 'Compile Error' , str(e)
+        return 'Judger Error' , str(e)
     finally:
         if 's' in dir():
             compile_info_msg = s.logs()[:min( len(s.logs()) , settings.max_compile_error_length )]
