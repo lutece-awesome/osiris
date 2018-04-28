@@ -1,9 +1,9 @@
 from requests import get
-from settings import fetch_submission_url
+import settings
 
 def fetch_waiting_submission():
     try:
-        response = get( fetch_submission_url )
+        response = get( settings.fetch_submission_url )
         if response['status'] == False:
             return None
     except:

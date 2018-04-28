@@ -1,4 +1,4 @@
-from fetch import fetch_waiting_submission
+from fetch.get import fetch_waiting_submission
 from judger import judge
 from compiler import Compile
 import time
@@ -9,19 +9,20 @@ def fetch_test():
         submission_id = r['submission_id'],
         lang = r['language'],
         code = r['code'],
-        problem = r['problem']
+        problem = r['problem'],
+        sourcefile = 'main-1'
     )
     print( r )
 
-
-
-if __name__ == '__main__':
+def test_compile():
     s1 = time.clock()
-    #print( create_tempfile( 1 , 'GNU G++17' , '#include <iostream>' ) )
     ret = Compile(
         lang = 'GNU G++17',
         code = open( 'testcase/good.cpp' , "r" ).read(),
-        thread_id = 1
+        sourcefile = 'main-1'
     )
     print( ret )
     print( 'time cost ' , time.clock() - s1 )
+
+if __name__ == '__main__':
+    test_compile()

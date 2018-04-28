@@ -34,3 +34,16 @@ SUPPORT_LANGUAGE = {
         'extension' : 'java',        
     },
 }
+
+
+def get_extension( lang ):
+    return SUPPORT_LANGUAGE[lang]['extension']
+
+def get_compile_command( lang ):
+    return SUPPORT_LANGUAGE[lang]['compile_command']
+
+def get_repo_lang( lang ):
+    return SUPPORT_LANGUAGE[lang]['docker_repo']
+
+def get_repo_tag( lang ):
+    return SUPPORT_LANGUAGE[lang]['docker_repo_tag']

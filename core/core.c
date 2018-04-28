@@ -70,7 +70,6 @@ int main( int argc , char * argv[] ){
         if( status == 127 ) errExit( "Unknown Error" );
         int status_code = get_status_code( WEXITSTATUS(status) );
         long long timecost = ( long long )result.ru_utime.tv_sec * 1000000ll + ( long long )result.ru_utime.tv_usec;
-        //printf( "%d %s\n" , status_code , strsignal( status_code ) );
         if( status_code == SIGXCPU || timecost > timelimit * 1000 || Exceeded_wall_clock_time ) goodExit( "Time Limit Exceeded");
         if( status_code == SIGXFSZ ) goodExit( "Output Limit Exceeded" );
         if( result.ru_maxrss > memorylimit ) goodExit( "Memory Limit Exceeded" );
