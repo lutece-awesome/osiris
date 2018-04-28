@@ -1,6 +1,6 @@
 # Osiris-Judge-Core
-[![Python](https://img.shields.io/badge/python-3.5.2-blue.svg?style=flat-square)](https://www.python.org/downloads/release/python-352/)
-
+[![Python](https://img.shields.io/badge/python-3.5.2-orange.svg?style=flat-square)](https://www.python.org/downloads/release/python-352/)
+[![License](https://img.shields.io/badge/License-GPLv3-ff69b4.svg?style=flat-square)](https://www.gnu.org/licenses/gpl.html)
 
 
 
