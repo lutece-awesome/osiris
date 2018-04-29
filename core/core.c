@@ -32,7 +32,7 @@ char checker_arguments[666];
 __pid_t pid;
 char * input_sourcefile , * output_sourcefile , * answer_sourcefile , * running_arguments , * checker_sourcefile;
 
-
+#define judge_user 6666
 #define errExit( msg ) do{fprintf( stdout , "[\"%s\",\"Core error: %s\"]\n" , "Judger Error" , msg );exit(-1);}while(0)
 #define goodExit( msg , timecost , memorycost ) do{fprintf( stdout , "[\"%s\",\"%lld\",\"%ld\"]\n" , msg , timecost , memorycost );exit(0);}while(0)
 
@@ -92,12 +92,13 @@ int main( int argc , char * argv[] ){
         else if( checker_statuscode > 256 ) errExit( "Checker error" );
         goodExit( "Wrong Answer" , timecost / 1000 , result.ru_maxrss ); 
     }else if( pid == 0 ){
+        if( freopen( input_sourcefile , "r" , stdin ) == NULL ) errExit( "Can not redirect stdin" );
+        if( freopen( output_sourcefile , "w" , stdout ) == NULL ) errExit( "Can not redirect stdout" );
+        if(setuid( judge_user )) errExit( "Can not set uid" );
         set_limit( RLIMIT_CPU , ( timelimit + 999 ) / 1000 , 1 ); // set cpu_time limit
         set_limit( RLIMIT_AS , memorylimit , ( 1 << 10 ) * ( 1 << 10 ) ); // set memory limit, extra memory : 1mb
         set_limit( RLIMIT_FSIZE , outputlimit , 0 ); // set output limit
         set_limit( RLIMIT_STACK , stacklimit , 0 ); // set stack limit
-        if( freopen( input_sourcefile , "r" , stdin ) == NULL ) errExit( "Can not redirect stdin" );
-        if( freopen( output_sourcefile , "w" , stdout ) == NULL ) errExit( "Can not redirect stdout" );
         execl( "/bin/sh", "sh", "-c",  running_arguments , (char *) 0);
     }else
         errExit( "Can not fork the child process" );

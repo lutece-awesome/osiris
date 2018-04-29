@@ -23,7 +23,7 @@ def test_judge():
     print( judge(
         submission_id = 1 ,
         lang = 'GNU G++17',
-        code = open( 'testcase/good.cpp' , "r" ).read(),
+        code = open( 'testcase/readans.cpp' , "r" ).read(),
         sourcefile = 'main-1',
         problem = 1,
         time_limit = 1000,

@@ -17,13 +17,16 @@ def run( lang , data_dir , sourcefile , time_limit , memory_limit , checker , ca
     running_core_file = 'core.bin'
     running_checker_file = checker + '.bin'
     running_source_file = sourcefile + '.bin'
+    print( settings.docker_repo_arguments.format(
+            repo_lang = language.get_image( lang ),
+        ))
     s = client.containers.run(
         image = settings.docker_repo_arguments.format(
             repo_lang = language.get_image( lang ),
         ),
         volumes={ 
-           data_dir : {'bind':  '/opt' , 'mode':'ro' }, # mount data
-           os.path.join( settings.work_dir , running_judge_file ) : { 'bind': os.path.join( '/home' , running_judge_file ) , 'mode':'rw' }, # mount judge script
+           data_dir : {'bind':  '/opt' , 'mode':'rw' }, # mount data
+           os.path.join( settings.core_dir , running_judge_file ) : { 'bind': os.path.join( '/home' , running_judge_file ) , 'mode':'rw' }, # mount judge script
            os.path.join( settings.core_dir , running_core_file ) : { 'bind': os.path.join( '/home' , running_core_file ) , 'mode':'rw' }, # mount core
            os.path.join( settings.checker_dir , running_checker_file ) : { 'bind': os.path.join( '/home' , running_checker_file ) , 'mode':'rw' }, # mount checker
            os.path.join( settings.work_dir , running_source_file )  : { 'bind': os.path.join( '/home' , running_source_file ) , 'mode':'rw' }, # mount target program
@@ -33,13 +36,20 @@ def run( lang , data_dir , sourcefile , time_limit , memory_limit , checker , ca
         tty = True,
         detach = True,
     )
-    print( s )
     ret = s.exec_run(
         privileged = True,
-        cmd = 'chmod 700 ' + str( running_judge_file ) + ' ' + str( running_core_file ) + ' ' + str( running_checker_file ) + ' ' + str( running_source_file )
+        cmd = 'chmod -R 700 /opt' # make user's program can not read answer file
     )
-    print( ret )
+    s.exec_run(
+        privileged = True,
+        cmd = 'chmod 700 ' + str( running_judge_file ) + ' ' + str( running_core_file ) + ' ' + str( running_checker_file )
+    )
+    s.exec_run(
+        privileged = True,
+        cmd = 'chmod 777 ' + str( running_source_file )
+    )
     ret = s.exec_run(
+        privileged = True,
         cmd = settings.shell_script_command.format(
             time_limit = time_limit,
             memory_limit = int(memory_limit) * 1024 * 1024,

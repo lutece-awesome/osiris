@@ -10,6 +10,4 @@ RUN apt update && apt install -y \
     echo 'export PATH=/clang_6.0.0/bin:$PATH' >> ~/.bashrc && \
     echo 'export LD_LIBRARY_PATH=/clang_6.0.0/lib:LD_LIBRARY_PATH' >> ~/.bashrc \
     groupadd -g 6666 judge_group                   \
-    && useradd -u 6666 -d /home -g 6666 judge_user \
-    && chmod -R 700 /opt                           \
-    && chmod -R 700 /etc
+    && useradd -u 6666 -d /home -g 6666 judge_user 

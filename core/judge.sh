@@ -12,7 +12,6 @@ running_arguments=$6
 data_dir=/opt
 case_number=$7
 
-
 for(( i = 1 ; i <= case_number ; ++ i))
 do
 	result=$(${running_core} ${time_limit} ${memory_limit} ${output_limit} ${stack_limit}  ${data_dir}/${i}.in user.out ${data_dir}/${i}.out ${running_arguments} ${checker})
