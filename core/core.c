@@ -21,16 +21,16 @@
     + argv[5]: Input sourcefile
     + argv[6]: Output sourcefile
     + argv[7]: Answer sourcefile
-    + argv[8]: Running sourcefile
+    + argv[8]: Running arguments
     + argv[9]: Checker sourcefile
  * EXITCODE:
     + 152 = 24 = CPU TIME EXCEEDED
  *****************************************************************************/
 long long timelimit, memorylimit, outputlimit, stacklimit;
 int Exceeded_wall_clock_time;
-char checker_arguments[666] , running_arguments[666];
+char checker_arguments[666];
 __pid_t pid;
-char * input_sourcefile , * output_sourcefile , * answer_sourcefile , * running_sourcefile , * checker_sourcefile;
+char * input_sourcefile , * output_sourcefile , * answer_sourcefile , * running_arguments , * checker_sourcefile;
 
 
 #define errExit( msg ) do{fprintf( stdout , "[\"%s\",\"Core error: %s\"]\n" , "Judger Error" , msg );exit(-1);}while(0)
@@ -41,15 +41,8 @@ do{                                                                             
     struct rlimit _;                                                                 \
     _.rlim_cur = (value);                                                            \
     _.rlim_max = value + ext;                                                        \
-    if ( setrlimit( type , & _ ) != 0 ) {                                            \
-        fprintf( stdout , "Setrlimit error(%s): %s\n" , #type , strerror(errno) );   \
-        exit( -1 );                                                                  \
-    }                                                                                \
+    if ( setrlimit( type , & _ ) != 0 ) errExit( "Setrlimit error");                 \
 }while(0)
-
-void genrate_running_command(){
-    sprintf( running_arguments , "./%s.bin" , running_sourcefile );
-}
 
 void genrate_checker_command(){
     sprintf( checker_arguments , "./%s.bin %s %s %s 1>/dev/null 2>&1" , checker_sourcefile , input_sourcefile , output_sourcefile , answer_sourcefile );
@@ -75,9 +68,8 @@ int main( int argc , char * argv[] ){
     input_sourcefile = argv[5];
     output_sourcefile = argv[6];
     answer_sourcefile = argv[7];
-    running_sourcefile = argv[8];
+    running_arguments = argv[8];
     checker_sourcefile = argv[9];
-    genrate_running_command();
     genrate_checker_command();
     pid = fork();
     if( pid > 0 ){
@@ -101,7 +93,7 @@ int main( int argc , char * argv[] ){
         goodExit( "Wrong Answer" , timecost / 1000 , result.ru_maxrss ); 
     }else if( pid == 0 ){
         set_limit( RLIMIT_CPU , ( timelimit + 999 ) / 1000 , 1 ); // set cpu_time limit
-        set_limit( RLIMIT_AS , memorylimit , ( 1 << 10 ) ); // set memory limit
+        set_limit( RLIMIT_AS , memorylimit , ( 1 << 10 ) * ( 1 << 10 ) ); // set memory limit, extra memory : 1mb
         set_limit( RLIMIT_FSIZE , outputlimit , 0 ); // set output limit
         set_limit( RLIMIT_STACK , stacklimit , 0 ); // set stack limit
         if( freopen( input_sourcefile , "r" , stdin ) == NULL ) errExit( "Can not redirect stdin" );

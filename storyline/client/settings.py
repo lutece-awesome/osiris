@@ -10,7 +10,7 @@ data_server = '127.0.0.1'
 # port
 port = 6100
 
-# buffsize : 256 mb
+# buffsize
 buffersize = 8192
 
 # Judge data dir

@@ -1,9 +1,8 @@
 import socket
-import settings
+from . import sync, settings
 import pickle
 import time
 import os
-from sync import rewrite
 import hashlib
 
 def read_header_length( msg ):
@@ -81,6 +80,11 @@ def pull( problem ):
     if settings.md5_validator == True and check_cache( problem ):
         return True
     recv = pull_data( problem , 'test-data' )
-    if recv == None or rewrite( problem , recv) == False:
+    if recv == None or sync.rewrite( problem , recv) == False:
         return False
     return True
+
+
+def get_case_number( problem ):
+    list_dir = os.listdir( os.path.join( settings.data_dir , str( problem ) ) )
+    return len( list( filter( lambda x : os.path.splitext( x )[1] == '.in' , list_dir ) ) )
