@@ -106,3 +106,6 @@ ENV/
 *.bin
 *.out
 do.c
+sample.in
+sample.out
+user.out

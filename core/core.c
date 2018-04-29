@@ -18,8 +18,11 @@
     + argv[2]: Memory limit: bytes
     + argv[3]: Output limit: bytes
     + argv[4]: Stack limit: bytes
-    + argv[5]: Running arguments
-    + argv[6]: Checker sourcefile
+    + argv[5]: Input sourcefile
+    + argv[6]: Output sourcefile
+    + argv[7]: Answer sourcefile
+    + argv[8]: Running arguments
+    + argv[9]: Checker arguments
  * EXITCODE:
     + 152 = 24 = CPU TIME EXCEEDED
  *****************************************************************************/
@@ -53,12 +56,16 @@ int get_status_code( int x ){
 }
 
 int main( int argc , char * argv[] ){
-    if( argc != 6 ) errExit( "Arguments number should be 5" );
+    if( argc != 10 ) errExit( "Arguments number should be 9" );
     timelimit = atoll( argv[1] );
     memorylimit = atoll( argv[2] );
     outputlimit = atoll( argv[3] );
     stacklimit = atoll( argv[4] );
-    char * running_arguments = argv[5];
+    char * input_sourcefile = argv[5];
+    char * output_sourcefile = argv[6];
+    char * answer_sourcefile = argv[7];
+    char * running_arguments = argv[8];
+    char * checker_arguments = argv[9];
     pid = fork();
     if( pid > 0 ){
         struct rusage result;
@@ -75,12 +82,16 @@ int main( int argc , char * argv[] ){
         if( status_code == SIGXFSZ ) goodExit( "Output Limit Exceeded" , timecost / 1000 , result.ru_maxrss );
         if( result.ru_maxrss > memorylimit ) goodExit( "Memory Limit Exceeded" , timecost / 1000 , result.ru_maxrss );
         if( status_code != 0 ) goodExit( "Runtime Error" , timecost / 1000 , result.ru_maxrss );
-        goodExit( "Success" , timecost / 1000 , result.ru_maxrss );
+        int checker_statuscode = system( checker_arguments );
+        if( checker_statuscode == 0 ) goodExit( "Accepted" , timecost / 1000 , result.ru_maxrss ); 
+        goodExit( "Wrong Answer" , timecost / 1000 , result.ru_maxrss ); 
     }else if( pid == 0 ){
         set_limit( RLIMIT_CPU , ( timelimit + 999 ) / 1000 , 1 ); // set cpu_time limit
         set_limit( RLIMIT_AS , memorylimit , ( 1 << 10 ) ); // set memory limit
         set_limit( RLIMIT_FSIZE , outputlimit , 0 ); // set output limit
         set_limit( RLIMIT_STACK , stacklimit , 0 ); // set stack limit
+        if( freopen( input_sourcefile , "r" , stdin ) == NULL ) errExit( "Can not redirect stdin" );
+        if( freopen( output_sourcefile , "w" , stdout ) == NULL ) errExit( "Can not redirect stdout" );
         execl( "/bin/sh", "sh", "-c",  running_arguments , (char *) 0);
     }else
         errExit( "Can not fork the child process" );
