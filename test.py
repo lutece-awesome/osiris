@@ -24,5 +24,16 @@ def test_compile():
     print( ret )
     print( 'time cost ' , time.clock() - s1 )
 
+
+def test_judge():
+    judge(
+        submission_id = 1 ,
+        lang = 'GNU G++17',
+        code = open( 'testcase/good.cpp' , "r" ).read(),
+        sourcefile = 'main-1',
+        problem = 1
+    )
+
+
 if __name__ == '__main__':
-    test_compile()
+    test_judge()

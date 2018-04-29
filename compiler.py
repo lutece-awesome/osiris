@@ -32,13 +32,13 @@ def Compile( lang , code , sourcefile ):
     try:
         s = client.containers.create(
             image = settings.docker_repo_arguments.format(
-                image = language.get_image( lang )
+                repo_lang = language.get_image( lang )
             ),
             mem_limit = settings.COMPILE_MEMORY,
             volumes={ os.path.join( settings.work_dir ) : {'bind':  '/opt' , 'mode':'rw' } },
             working_dir = '/opt',
             command = language.get_compile_command( lang ).format(
-                source_file = sourcefile,
+                sourcefile = sourcefile,
                 extension = language.get_extension( lang )
             ),
             auto_remove = False,

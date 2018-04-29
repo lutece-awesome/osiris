@@ -16,15 +16,12 @@ def run( lang , data_dir , sourcefile ):
     )
     s = client.containers.create(
         image = settings.docker_repo_arguments.format(
-            CDN_HUB = settings.CDN_HUB_ADDRESS,
-            repo_lang = language.get_repo_lang( lang ),
-            repo_tag = language.get_repo_tag( lang )
+            repo_lang = language.get_image( lang ),
         ),
         volumes={ os.path.join( data_dir ) : {'bind':  '/opt' , 'mode':'ro' } },
         working_dir = '/home',
-        command = language.get_compile_command( lang ).format(
-            source_file = sourcefile,
-            extension = language.get_extension( lang )
+        command = language.get_running_command( lang ).format(
+            sourcefile = sourcefile
         ),
         auto_remove = False,
     )
@@ -39,4 +36,9 @@ def judge( submission_id , lang , code , problem , sourcefile ):
         sourcefile = sourcefile)
     if st != 'Success':
         modify( submission_id , st , info )
+    run( 
+        lang = lang , 
+        data_dir = os.path.join( settings.data_dir , str( problem ) ) ,  
+        sourcefile = sourcefile
+    )
     pass

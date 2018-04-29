@@ -1,4 +1,4 @@
-# compile 
+# compile settings
 COMPILE_TIMEOUT = 2.0 # 2.0 seconds
 COMPILE_MEMORY = '256mb'
 
@@ -12,10 +12,10 @@ work_dir = '/home/xiper/Desktop/Osiris-Judge-Core/work'
 max_compile_error_length = 480
 
 # set docker repo arguments
-docker_repo_arguments = '{repo_lang}:{repo_tag}'
+docker_repo_arguments = '{repo_lang}'
 
 # set source file name arguments
 sourcefile_extension = '{sourcefile}.{extension}'
 
-# set source file running, !!do not change this
+# set source file running arguments, !!do not change this
 sourcefile_running = '{sourcefile}.bin'

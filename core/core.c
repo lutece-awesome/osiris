@@ -19,6 +19,7 @@
     + argv[3]: Output limit: bytes
     + argv[4]: Stack limit: bytes
     + argv[5]: Running arguments
+    + argv[6]: Checker sourcefile
  * EXITCODE:
     + 152 = 24 = CPU TIME EXCEEDED
  *****************************************************************************/
@@ -26,8 +27,8 @@ long long timelimit, memorylimit, outputlimit, stacklimit;
 int Exceeded_wall_clock_time;
 __pid_t pid;
 
-#define errExit( msg ) do{fprintf( stderr , "Core error: %s\n" , msg );exit(-1);}while(0)
-#define goodExit( msg ) do{fprintf( stdout , "%s\n" , msg );exit(0);}while(0)
+#define errExit( msg ) do{fprintf( stdout , "Core error: %s\n" , msg );exit(-1);}while(0)
+#define goodExit( msg , timecost , memorycost ) do{fprintf( stdout , "%s %lld %ld\n" , msg , timecost , memorycost );exit(0);}while(0)
 
 #define set_limit( type , value , ext )                                              \
 do{                                                                                  \
@@ -35,7 +36,7 @@ do{                                                                             
     _.rlim_cur = (value);                                                            \
     _.rlim_max = value + ext;                                                        \
     if ( setrlimit( type , & _ ) != 0 ) {                                            \
-        fprintf( stderr , "Setrlimit error(%s): %s\n" , #type , strerror(errno) );   \
+        fprintf( stdout , "Setrlimit error(%s): %s\n" , #type , strerror(errno) );   \
         exit( -1 );                                                                  \
     }                                                                                \
 }while(0)
@@ -66,18 +67,18 @@ int main( int argc , char * argv[] ){
         if(pthread_create( & watch_thread , NULL , ( void * )wait_to_kill_childprocess , NULL ))
             errExit( "Can not create watch pthread" );
         wait4( pid , & status , 0 , & result );
-        if( status == -1 ) errExit( "Unknown Error" );
-        if( status == 127 ) errExit( "Unknown Error" );
         int status_code = get_status_code( WEXITSTATUS(status) );
+        if( status_code == -1 ) errExit( "Unknown Error" );
+        if( status_code == 127 ) errExit( "Can not run target program" );
         long long timecost = ( long long )result.ru_utime.tv_sec * 1000000ll + ( long long )result.ru_utime.tv_usec;
-        if( status_code == SIGXCPU || timecost > timelimit * 1000 || Exceeded_wall_clock_time ) goodExit( "Time Limit Exceeded");
-        if( status_code == SIGXFSZ ) goodExit( "Output Limit Exceeded" );
-        if( result.ru_maxrss > memorylimit ) goodExit( "Memory Limit Exceeded" );
-        if( status_code != 0 ) goodExit( "Runtime Error" );
-        goodExit( "Success" );
+        if( status_code == SIGXCPU || timecost > 1ll * timelimit * 1000 || Exceeded_wall_clock_time ) goodExit( "Time Limit Exceeded" , timelimit , result.ru_maxrss  );
+        if( status_code == SIGXFSZ ) goodExit( "Output Limit Exceeded" , timecost / 1000 , result.ru_maxrss );
+        if( result.ru_maxrss > memorylimit ) goodExit( "Memory Limit Exceeded" , timecost / 1000 , result.ru_maxrss );
+        if( status_code != 0 ) goodExit( "Runtime Error" , timecost / 1000 , result.ru_maxrss );
+        goodExit( "Success" , timecost / 1000 , result.ru_maxrss );
     }else if( pid == 0 ){
         set_limit( RLIMIT_CPU , ( timelimit + 999 ) / 1000 , 1 ); // set cpu_time limit
-        set_limit( RLIMIT_AS , memorylimit , ( 1 << 10 ) * (1 << 10) ); // set memory limit
+        set_limit( RLIMIT_AS , memorylimit , ( 1 << 10 ) ); // set memory limit
         set_limit( RLIMIT_FSIZE , outputlimit , 0 ); // set output limit
         set_limit( RLIMIT_STACK , stacklimit , 0 ); // set stack limit
         execl( "/bin/sh", "sh", "-c",  running_arguments , (char *) 0);

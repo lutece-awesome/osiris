@@ -21,7 +21,13 @@ Judge core based on Docker.
 
 ## Installation
 
-+ Install `docker` first.
++ Install submodule
+<pre>
+    git submodule init
+    git submodule update
+</pre>
+
++ Install `docker`
 <pre>
     suao apt-get update
     sudo apt-get install docker.io
@@ -35,4 +41,14 @@ Judge core based on Docker.
 + Install judger's image
 <pre>
     cd deploy && python3 deploy.py
+</pre>
+
++ Install checker from testlib
+<pre>
+    cd checker && python3 install.py
+</pre>
+
++ Compile core
+<pre>
+    cd core && gcc -o core.bin core.c -O2 -lpthread
 </pre>
