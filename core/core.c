@@ -33,8 +33,8 @@ __pid_t pid;
 char * input_sourcefile , * output_sourcefile , * answer_sourcefile , * running_sourcefile , * checker_sourcefile;
 
 
-#define errExit( msg ) do{fprintf( stdout , "Core error: %s\n" , msg );exit(-1);}while(0)
-#define goodExit( msg , timecost , memorycost ) do{fprintf( stdout , "%s %lld %ld\n" , msg , timecost , memorycost );exit(0);}while(0)
+#define errExit( msg ) do{fprintf( stdout , "[\"%s\",\"Core error: %s\"]\n" , "Judger Error" , msg );exit(-1);}while(0)
+#define goodExit( msg , timecost , memorycost ) do{fprintf( stdout , "[\"%s\",\"%lld\",\"%ld\"]\n" , msg , timecost , memorycost );exit(0);}while(0)
 
 #define set_limit( type , value , ext )                                              \
 do{                                                                                  \

@@ -2,6 +2,7 @@ from fetch.get import fetch_waiting_submission
 from judger import judge
 from compiler import Compile
 import time
+import language
 
 def fetch_test():
     r = fetch_waiting_submission()
@@ -34,6 +35,19 @@ def test_judge():
         problem = 1
     )
 
+def test_shell_content():
+    # shell_file_content = language.running_shell_arguments.format(
+    #     time_limit = '1000',
+    #     memory_limit = '67108864',
+    #     output_limit = '67108864',
+    #     stack_limit = '67108864',
+    #     checker = 'wcmp',
+    #     core = 'core',
+    #     sourcefile = 'main-1',
+    #     data_dir = '/home/xiper/Desktop/Judge_Data/1',
+    #     case_number = '30'
+    # )
+
 
 if __name__ == '__main__':
-    test_judge()
+    test_shell_content()
