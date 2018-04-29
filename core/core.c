@@ -21,14 +21,17 @@
     + argv[5]: Input sourcefile
     + argv[6]: Output sourcefile
     + argv[7]: Answer sourcefile
-    + argv[8]: Running arguments
-    + argv[9]: Checker arguments
+    + argv[8]: Running sourcefile
+    + argv[9]: Checker sourcefile
  * EXITCODE:
     + 152 = 24 = CPU TIME EXCEEDED
  *****************************************************************************/
 long long timelimit, memorylimit, outputlimit, stacklimit;
 int Exceeded_wall_clock_time;
+char checker_arguments[666] , running_arguments[666];
 __pid_t pid;
+char * input_sourcefile , * output_sourcefile , * answer_sourcefile , * running_sourcefile , * checker_sourcefile;
+
 
 #define errExit( msg ) do{fprintf( stdout , "Core error: %s\n" , msg );exit(-1);}while(0)
 #define goodExit( msg , timecost , memorycost ) do{fprintf( stdout , "%s %lld %ld\n" , msg , timecost , memorycost );exit(0);}while(0)
@@ -43,6 +46,14 @@ do{                                                                             
         exit( -1 );                                                                  \
     }                                                                                \
 }while(0)
+
+void genrate_running_command(){
+    sprintf( running_arguments , "./%s.bin" , running_sourcefile );
+}
+
+void genrate_checker_command(){
+    sprintf( checker_arguments , "./%s.bin %s %s %s 1>/dev/null 2>&1" , checker_sourcefile , input_sourcefile , output_sourcefile , answer_sourcefile );
+}
 
 void wait_to_kill_childprocess(){
     sleep( ( ( timelimit + 999 ) / 1000 ) + 1 );
@@ -61,11 +72,13 @@ int main( int argc , char * argv[] ){
     memorylimit = atoll( argv[2] );
     outputlimit = atoll( argv[3] );
     stacklimit = atoll( argv[4] );
-    char * input_sourcefile = argv[5];
-    char * output_sourcefile = argv[6];
-    char * answer_sourcefile = argv[7];
-    char * running_arguments = argv[8];
-    char * checker_arguments = argv[9];
+    input_sourcefile = argv[5];
+    output_sourcefile = argv[6];
+    answer_sourcefile = argv[7];
+    running_sourcefile = argv[8];
+    checker_sourcefile = argv[9];
+    genrate_running_command();
+    genrate_checker_command();
     pid = fork();
     if( pid > 0 ){
         struct rusage result;
@@ -84,6 +97,7 @@ int main( int argc , char * argv[] ){
         if( status_code != 0 ) goodExit( "Runtime Error" , timecost / 1000 , result.ru_maxrss );
         int checker_statuscode = system( checker_arguments );
         if( checker_statuscode == 0 ) goodExit( "Accepted" , timecost / 1000 , result.ru_maxrss ); 
+        else if( checker_statuscode > 256 ) errExit( "Checker error" );
         goodExit( "Wrong Answer" , timecost / 1000 , result.ru_maxrss ); 
     }else if( pid == 0 ){
         set_limit( RLIMIT_CPU , ( timelimit + 999 ) / 1000 , 1 ); // set cpu_time limit
