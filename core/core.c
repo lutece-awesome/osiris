@@ -71,6 +71,7 @@ int main( int argc , char * argv[] ){
     running_arguments = argv[8];
     checker_sourcefile = argv[9];
     genrate_checker_command();
+    if( freopen( "/dev/null" , "w" , stderr ) == NULL ) errExit( "Can not redirect stderr" );
     pid = fork();
     if( pid > 0 ){
         struct rusage result;

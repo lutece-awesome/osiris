@@ -20,8 +20,10 @@ SUPPORT_LANGUAGE = {
     },
 
     'Python 3.6.5':{
+        'image' : 'python:3.6.5-stretch',
         'extension' : 'py',        
-        'compile_command' : 'mv {sourcefile}.{extension} {sourcefile}.bin'
+        'compile_command' : 'mv {sourcefile}.{extension} {sourcefile}.bin',
+        'running_command' : 'python3 {sourcefile}.bin'
     },
 
     'Python 2.7.12':{

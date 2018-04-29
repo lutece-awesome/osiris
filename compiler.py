@@ -34,6 +34,7 @@ def Compile( lang , code , sourcefile ):
             image = settings.docker_repo_arguments.format(
                 repo_lang = language.get_image( lang )
             ),
+            network_disabled = True,
             mem_limit = settings.COMPILE_MEMORY,
             volumes={ os.path.join( settings.work_dir ) : {'bind':  '/opt' , 'mode':'rw' } },
             working_dir = '/opt',
