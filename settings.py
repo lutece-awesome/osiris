@@ -27,4 +27,4 @@ docker_repo_arguments = '{repo_lang}'
 sourcefile_extension = '{sourcefile}.{extension}'
 
 # shell command
-shell_script_command = './judge.sh {time_limit} {memory_limit} {output_limit} {stack_limit} {checker} {running_aruguments} {case_number}'
+shell_script_command = './judge.sh {time_limit} {memory_limit} {output_limit} {stack_limit} \'{checker}\' \'{running_aruguments}\' {case_number}'

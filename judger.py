@@ -87,6 +87,7 @@ def run( submission_id , lang , data_dir , sourcefile , time_limit , memory_limi
             if case == int( case_number ) or info[0] != 'Accepted':
                 break
     except Exception as e:
+        print( str( e ) )
         modify( submission_id , 'Judger Error' , str( e ) )
     finally:
         if 's' in dir():
@@ -115,4 +116,3 @@ def judge( submission_id , lang , code , problem , sourcefile , time_limit , mem
         checker = checker,
         case_number = get_case_number( problem )
     )
-    pass

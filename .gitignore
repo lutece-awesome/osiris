@@ -106,6 +106,7 @@ ENV/
 *.bin
 *.out
 do.c
+do.py
 sample.in
 sample.out
 user.out

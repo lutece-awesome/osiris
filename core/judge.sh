@@ -14,7 +14,7 @@ case_number=$7
 
 for(( i = 1 ; i <= case_number ; ++ i))
 do
-	result=$(${running_core} ${time_limit} ${memory_limit} ${output_limit} ${stack_limit}  ${data_dir}/${i}.in user.out ${data_dir}/${i}.out ${running_arguments} ${checker})
+	result=$(${running_core} ${time_limit} ${memory_limit} ${output_limit} ${stack_limit} "${data_dir}/${i}.in" user.out "${data_dir}/${i}.out" "${running_arguments}" "${checker}")
 	status_code=$?
 	printf '{"case":"%s","info":%s}\n' "$i" "$result"
 	if [ $status_code -ne 0 ]; then
