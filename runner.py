@@ -33,7 +33,11 @@ def run( sub ):
         s.exec_run( privileged = True , cmd = 'chmod 700 ' + str( running_core_file ) + ' ' + str( running_checker_file ))
         s.exec_run( privileged = True , cmd = 'chmod 777 ' + str( running_source_file ) )
         for i in range( 1 , sub.case_number + 1 ):
-            upload_result( report = Report( result = 'Running' , case = i , submission = sub.submission ) )
+            upload_result( report = Report( 
+                result = 'Running', 
+                case = i, 
+                submission = sub.submission,
+                complete = False) )
             running_command = running_arguments.format(
                 time_limit = sub.time_limit,
                 memory_limit = sub.memory_limit * 1024 * 1024,
@@ -50,6 +54,10 @@ def run( sub ):
             exit_code , output = int( ret[0] ) , loads( ret[1].decode( 'utf-8' ) )
             output['case'] = i
             output['submission'] = sub.submission
+            if output['result'] == 'Accepted' and i != sub.case_number:
+                output['complete'] = False
+            else:
+                output['complete'] = True
             upload_result( report = Report( ** output ) )
             if output['result'] != 'Accepted':
                 break

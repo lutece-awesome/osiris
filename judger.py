@@ -13,8 +13,8 @@ def judge_submission( submission ):
             result = 'Judger Error',
             case = 1,
             submission = submission.submission,
-            additional_info = 'Can not upload data'
-        ))
+            additional_info = 'Can not upload data',
+            complete = True))
         raise RuntimeError( "Can not pull problem" )
     result , information = compile( 
         submission = submission)
@@ -23,8 +23,8 @@ def judge_submission( submission ):
             result = 'Judger Error',
             case = 1,
             submission = submission.submission,
-            additional_info = information
-        ))
+            additional_info = information,
+            complete = True))
         if result == 'Judger Error':
             raise RuntimeError( "Judger Error during compiling: " + str( information ) )
         exit( 0 )

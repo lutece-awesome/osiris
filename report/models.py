@@ -11,6 +11,7 @@ class Report:
         'memory_cost',
         'additional_info',
         'case',
+        'complete',
         '_field'
     )
 
