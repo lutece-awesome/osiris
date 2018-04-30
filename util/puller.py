@@ -77,6 +77,10 @@ def check_cache( problem ):
     return True
 
 def pull( problem ):
+    '''
+        Pull the problem from data_server
+        If pull success return True otherwise return False
+    '''
     if settings.md5_validator == True and check_cache( problem ):
         return True
     recv = pull_data( problem , 'test-data' )
@@ -84,7 +88,9 @@ def pull( problem ):
         return False
     return True
 
-
 def get_case_number( problem ):
     list_dir = os.listdir( os.path.join( settings.data_dir , str( problem ) ) )
     return len( list( filter( lambda x : os.path.splitext( x )[1] == '.in' , list_dir ) ) )
+
+def get_data_dir( problem ):
+    return os.path.join( settings.data_dir , str( problem ) )
