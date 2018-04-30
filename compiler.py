@@ -52,7 +52,7 @@ def compile( submission ):
             detach = True)
         status, info = s.exec_run(
                     privileged = True,
-                    cmd = language.get_compile_command( submission.language ).format(
+                    cmd = 'timeout ' + str(settings.COMPILE_TIMEOUT) + ' ' + language.get_compile_command( submission.language ).format(
                     sourcefile = submission.sourcefile,
                     extension = language.get_extension( submission.language )))
         status = int( status )

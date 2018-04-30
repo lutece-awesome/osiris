@@ -24,7 +24,7 @@ def test_judge_from_file():
 
 def multi_thread_test():
     s = []
-    for i in range( 0 , 4 ):
+    for i in range( 0 , 8 ):
         name = 'main-1' + str(i)
         s.append( threading.Thread(target=run_judge_thread , args = ( name, ) ) )
     for _ in s:
