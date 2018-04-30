@@ -9,6 +9,7 @@ class Report:
         'time_cost',
         'memory_cost',
         'additional_info',
+        'case',
         '_field'
     )
 

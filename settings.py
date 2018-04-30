@@ -25,5 +25,9 @@ docker_repo_arguments = '{repo_lang}'
 # set source file name arguments
 sourcefile_extension = '{sourcefile}.{extension}'
 
-# shell command
-shell_script_command = 'bash judge.sh {time_limit} {memory_limit} {output_limit} {stack_limit} \'{checker}\' \'{running_aruguments}\' /opt {case_number}'
+# running arguments
+running_arguments = './core.bin {time_limit} {memory_limit} {output_limit} {stack_limit}     \
+                    \"{input_sourcefile}\" \"{output_sourcefile}\" \"{answer_sourcefile}\"   \
+                    \"{running_arguments}\" \"{checker_sourcefile}\"'
+
+                    

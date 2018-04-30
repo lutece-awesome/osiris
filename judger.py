@@ -25,5 +25,5 @@ def judge_submission( submission ):
             raise RuntimeError( "Judger Error during compiling: " + str( information ) )
         exit( 0 )
     submission.case_number = get_case_number( submission.problem )
-    submission.data_dir = get_data_dir( submission.problem )
+    submission.data_dir = get_data_dir( get_data_dir( submission.problem ) )
     run( submission = submission )

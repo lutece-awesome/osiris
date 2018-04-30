@@ -12,6 +12,8 @@ def test_judge_from_file():
             sourcefile = 'main-1',
             time_limit = 5000,
             memory_limit = 64,
+            output_limit = 64,
+            stack_limit = 64,
             checker = 'wcmp',
             problem = 1,
         )
