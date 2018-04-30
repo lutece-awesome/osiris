@@ -1,7 +1,7 @@
 from os import path, getcwd
 
 # compile settings
-COMPILE_TIMEOUT = 2.0 # 2.0 seconds
+COMPILE_TIMEOUT = 2.0 # 2.0 seconds / cpu time
 COMPILE_MEMORY = '256mb'
 
 # set base dir

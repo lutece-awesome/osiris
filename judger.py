@@ -20,7 +20,7 @@ def judge_submission( submission ):
         submission = submission)
     if result == 'Judger Error' or result == 'Compile Error':
         upload_result( Report(
-            result = 'Judger Error',
+            result = result,
             case = 1,
             submission = submission.submission,
             additional_info = information,
