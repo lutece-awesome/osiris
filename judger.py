@@ -11,6 +11,8 @@ def judge_submission( submission ):
     if pull( submission.problem ) == False:
         upload_result( Report(
             result = 'Judger Error',
+            case = 1,
+            submission = submission.submission,
             additional_info = 'Can not upload data'
         ))
         raise RuntimeError( "Can not pull problem" )
@@ -19,6 +21,8 @@ def judge_submission( submission ):
     if result == 'Judger Error' or result == 'Compile Error':
         upload_result( Report(
             result = 'Judger Error',
+            case = 1,
+            submission = submission.submission,
             additional_info = information
         ))
         if result == 'Judger Error':
@@ -26,4 +30,4 @@ def judge_submission( submission ):
         exit( 0 )
     submission.case_number = get_case_number( submission.problem )
     submission.data_dir = get_data_dir( get_data_dir( submission.problem ) )
-    run( submission = submission )
+    run( sub = submission )

@@ -6,6 +6,7 @@ class Report:
 
     __slots__ = (
         'result',
+        'submission',
         'time_cost',
         'memory_cost',
         'additional_info',

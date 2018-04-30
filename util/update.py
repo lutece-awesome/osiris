@@ -6,7 +6,6 @@ def upload_result( report ):
         Send the report to the server
     '''
     print( report.attribute )
-    return
     try: 
         post(
             url = modify_submission_url,
