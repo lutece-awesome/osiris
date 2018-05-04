@@ -33,5 +33,8 @@ META_FIELD = {
 # header , only include length
 header_length = 64
 
-# time_out( second )
-time_out = 10.0
+# socket time_out( second )
+time_out = 60.0
+
+# Pull data thread lock time out( second )
+lock_time_out = 60.0
