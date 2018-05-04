@@ -24,6 +24,26 @@ def pull_data( problem , data_type ):
         return None
     return ret
 
+def cal_md5_or_create( problem ):
+    try:
+        path = os.path.join( settings.data_dir , str( problem ) )
+        li = list( filter( lambda x : os.path.split( x )[1] in settings.META_FIELD['md5'] , os.listdir( path ) ) )
+        kwargs = []
+        for _ in li:
+            f = open( os.path.join( path , _ ) , "rb" )
+            md5 = hashlib.md5()
+            md5.update( f.read() )
+            content = md5.hexdigest()
+            f.close()
+            kwargs.append( _ , content )
+        kwargs.sort()
+        f = open( os.path.join( path , 'md5' ) , "w" )
+        f.write( str( kwargs ) )
+        f.close()
+    except Exception as e:
+        return False , str( e )
+    return True
+
 def check_cache( problem ):
     try:
         recv = pull_data( problem , 'md5' )
@@ -48,7 +68,7 @@ def check_cache( problem ):
 def pull( problem ):
     '''
         Pull the problem from data_server
-        If pull success return True otherwise return False
+        If pull success return True otherwise return False and reasons
     '''
     gloal_problem_lock.get( problem ).acquire( timeout = settings.lock_time_out )
     try:
@@ -60,11 +80,10 @@ def pull( problem ):
         return True , None
     except RuntimeError:
         return False , 'Pull-data time out'
-    except:
+    except Exception as e:
         return False , str( e )
     finally:
         gloal_problem_lock.get( problem ).release()
-    
 
 
 def get_case_number( problem ):
