@@ -4,7 +4,7 @@
 
 
 
-Judge core based on Celery and Docker.
+Judge core based on Docker.
 
 ## Current Support Language
 
@@ -51,4 +51,15 @@ Judge core based on Celery and Docker.
 + Compile core
 <pre>
     cd core && gcc -o core.bin core.c -O2 -lpthread
+</pre>
+
+## Config
++ Edit util.settings.py
+<pre>
+    FETCH_SUBMISSION_ADDR = 'Lutece.address'
+    FETCH_SUBMISSION_AUTHKEY = 'Lutece.settings.JUDGER_AUTHKEY'
+</pre>
++ Edit settings.py
+<pre>
+    MAX_JUDGE_PROCESS = 'eq the number of CPU cores is better'
 </pre>
