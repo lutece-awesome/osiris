@@ -1,4 +1,5 @@
 from util.puller import pull, get_case_number, get_data_dir
+from util.problem_locker import gloal_problem_lock
 from util.update import upload_result
 from report.models import Report
 from compiler import compile
@@ -8,7 +9,7 @@ def judge_submission( submission ):
     '''
         Judge the target submission
     '''
-    if pull( submission.problem ) == False:
+    if pull( lock = gloal_problem_lock.get( submission.problem ) , problem = submission.problem ) == False:
         upload_result( Report(
             result = 'Judger Error',
             case = 1,
@@ -27,7 +28,7 @@ def judge_submission( submission ):
             complete = True))
         if result == 'Judger Error':
             raise RuntimeError( "Judger Error during compiling: " + str( information ) )
-        exit( 0 )
+        return
     submission.case_number = get_case_number( submission.problem )
     submission.data_dir = get_data_dir( get_data_dir( submission.problem ) )
     run( sub = submission )

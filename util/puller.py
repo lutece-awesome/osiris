@@ -1,6 +1,7 @@
-import socket , os , hashlib , settings , sync
+import socket , os , hashlib , settings
+from . import sync
 from pickle import dumps
-from problem_locker import gloal_problem_lock
+from . problem_locker import gloal_problem_lock
 
 def pull_data( problem , data_type ):
     '''
@@ -64,12 +65,12 @@ def check_cache( problem ):
         return False
     return True
 
-def pull( problem ):
+def pull( lock , problem ):
     '''
         Pull the problem from data_server
         If pull success return True otherwise return False and reasons
     '''
-    gloal_problem_lock.get( problem ).acquire( timeout = settings.lock_time_out )
+    lock.acquire()
     try:
         if settings.md5_validator == True and check_cache( problem ):
             return True , None
@@ -82,13 +83,11 @@ def pull( problem ):
     except Exception as e:
         return False , str( e )
     finally:
-        gloal_problem_lock.get( problem ).release()
-
+        lock.release()
 
 def get_case_number( problem ):
     list_dir = os.listdir( os.path.join( settings.data_dir , str( problem ) ) )
     return len( list( filter( lambda x : os.path.splitext( x )[1] == '.in' , list_dir ) ) )
-
 
 def get_data_dir( problem ):
     return os.path.join( settings.data_dir , str( problem ) )

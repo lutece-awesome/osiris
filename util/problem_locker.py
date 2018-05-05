@@ -1,9 +1,9 @@
-from threading import Thread, Lock
+from multiprocessing import Lock
 from random import random
 
 class Problem_lock:
     '''
-        For problem pull request, multi-thread lock is needed
+        For problem pull request, multi-process lock is needed
     '''
 
     def _create( self , problem ):
