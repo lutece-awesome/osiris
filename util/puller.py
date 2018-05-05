@@ -1,7 +1,9 @@
 import socket , os , hashlib
-from . import sync , settings
 from pickle import dumps
-from . problem_locker import gloal_problem_lock
+from .problem_locker import gloal_problem_lock
+from .communication import send_data, recv_data
+from .settings import time_out, data_server, port, META_FIELD
+from .sync import rewrite
 
 def pull_data( problem , data_type ):
     '''
@@ -13,12 +15,17 @@ def pull_data( problem , data_type ):
         'type' : data_type}
     try:
         s = socket.socket( socket.AF_INET , socket.SOCK_STREAM )
-        s.settimeout( settings.time_out )
-        s.connect( ( settings.data_server , settings.port ) )
+        s.settimeout( time_out )
+        print( 'connect' )
+        s.connect( ( data_server , port ) )
+        print( 'connect completed' )
         send_data( s , dumps( msg , 2 ) )
+        print( 'send data complete' )
         ret = recv_data( s )
+        print( 'recv complete' )
         s.close()
-    except:
+    except Exception as e:
+        print( str( e ) )
         return None
     return ret
 
@@ -28,11 +35,11 @@ def cal_md5_or_create( problem , force = False ):
         if force is True, always create/update md5 file
     '''
     try:
-        path = os.path.join( settings.data_dir , str( problem ) )
+        path = os.path.join( data_dir , str( problem ) )
         li = os.listdir( path )
         if 'md5' in li and force is False:
             return True
-        li = list( filter( lambda x : os.path.splitext( x )[1] in settings.META_FIELD['md5'] , li ) )
+        li = list( filter( lambda x : os.path.splitext( x )[1] in META_FIELD['md5'] , li ) )
         kwargs = []
         for _ in li:
             f = open( os.path.join( path , _ ) , "rb" )
@@ -59,7 +66,7 @@ def check_cache( problem ):
             return False
         cal_md5_or_create( problem )
         recv.sort()
-        if recv != open( os.path.join( settings.data_dir , str( problem ) ) ).read():
+        if recv != open( os.path.join( data_dir , str( problem ) ) ).read():
             return False
     except:
         return False
@@ -72,7 +79,7 @@ def pull( lock , problem ):
     '''
     lock.acquire()
     try:
-        if settings.md5_validator == True and check_cache( problem ):
+        if md5_validator == True and check_cache( problem ):
             return True , None
         recv = pull_data( problem , 'test-data' )
         if recv == None or sync.rewrite( problem , recv) == False:
@@ -86,8 +93,8 @@ def pull( lock , problem ):
         lock.release()
 
 def get_case_number( problem ):
-    list_dir = os.listdir( os.path.join( settings.data_dir , str( problem ) ) )
+    list_dir = os.listdir( os.path.join( data_dir , str( problem ) ) )
     return len( list( filter( lambda x : os.path.splitext( x )[1] == '.in' , list_dir ) ) )
 
 def get_data_dir( problem ):
-    return os.path.join( settings.data_dir , str( problem ) )
+    return os.path.join( data_dir , str( problem ) )

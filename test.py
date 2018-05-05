@@ -6,6 +6,9 @@ import time
 from compiler import compile
 from settings import base_work_dir
 from os import path
+from util.puller import pull, pull_data
+from util import puller
+
 
 def test_judge_from_file():
     print( judge_submission(
@@ -42,4 +45,5 @@ def test_compile():
 
 
 if __name__ == '__main__':
-    test_judge_from_file()
+    # test_judge_from_file()
+    print( puller.pull_data( 1 , 'test-data' ) )

@@ -2,7 +2,7 @@ import queue
 from submission.models import Submission, parse
 from multiprocessing.managers import BaseManager
 from multiprocessing import Process
-from util.communication import task, result
+from util.create_queue import task, result
 from settings import MAX_JUDGE_PROCESS , base_work_dir
 from os import path
 from judger import judge_submission

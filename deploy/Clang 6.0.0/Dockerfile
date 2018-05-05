@@ -9,5 +9,5 @@ RUN apt update && apt install -y \
     mv clang+llvm-6.0.0-x86_64-linux-gnu-ubuntu-16.04 clang_6.0.0 && \
     echo 'export PATH=/clang_6.0.0/bin:$PATH' >> ~/.bashrc && \
     echo 'export LD_LIBRARY_PATH=/clang_6.0.0/lib:LD_LIBRARY_PATH' >> ~/.bashrc \
-    groupadd -g 6666 judge_group                   \
+    && groupadd -g 6666 judge_group                   \
     && useradd -u 6666 -d /home -g 6666 judge_user 
