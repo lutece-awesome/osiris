@@ -1,35 +1,36 @@
-from celery import Celery
-from submission.models import Submission
-from settings import MAX_JUDGE_PROCESS
-from billiard import Semaphore, Process , Lock
-from settings import MAX_JUDGE_PROCESS
+import queue
+from submission.models import Submission, parse
+from multiprocessing.managers import BaseManager
+from multiprocessing import Process
+from util.communication import task, result
+from settings import MAX_JUDGE_PROCESS , base_work_dir
+from os import path
 from judger import judge_submission
 
 
-empty = Semaphore( MAX_JUDGE_PROCESS )
-app = Celery( 'todo_que' , broker = 'amqp://guest@localhost//' )
-
-def start_judge( submission , language , problem , code , tiemlimit , memorylimit , checker , sourcefile ):
-    print( 'Start judging:' , submission )
-    try:
-        judge_submission( submission = Submission(
-            submission = submission,
-            language = language,
-            code = code,
-            time_limit = tiemlimit,
-            memory_limit = memorylimit,
-            output_limit = 64,
-            stack_limit = 64,
-            checker = checker,
-            problem = problem,
-            sourcefile = sourcefile))
-    finally:
-        empty.release()
-        print( 'Judging submission:' , submission , 'completed' )
-
-
-@app.task
-def todo_que( submission , language , problem , code , timelimit , memorylimit , checker ):
-    empty.acquire()
-    t = Process( target = start_judge , args = ( submission , language , problem , code , timelimit , memorylimit , checker ) )
+def JudgingProcess( name ):
+    while True:
+        try:
+            n = task.get( block = True )
+            n = parse( ** n )
+            sub = Submission( ** { ** n , ** {
+                'work_dir' : path.join( base_work_dir , name ),
+                'output_limit' : 64,
+                'stack_limit' : 64,
+                'sourcefile': 'main' }})
+            print( name , 'got submission, start juding(%s)' % ( str( sub.submission ) )  )
+            judge_submission( sub )
+        except BrokenPipeError:
+            print( 'Lutece Connection lost' )
+            return
+        except Exception as e:
+            print( name , 'error happen:' , str( e ) )
+    
+Pool = []
+for _ in range( MAX_JUDGE_PROCESS ):
+    t = Process( target = JudgingProcess , args = ( 'Process-' + str( _ ) , ) , daemon = True )
+    Pool.append( t )
     t.start()
+
+for _ in Pool:
+    _.join()

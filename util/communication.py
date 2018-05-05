@@ -1,5 +1,8 @@
 from pickle import loads
-from .settings import header_length
+from .settings import header_length, FETCH_SUBMISSION_ADDR, FETCH_SUBMISSION_PORT, FETCH_SUBMISSION_AUTHKEY
+from multiprocessing.managers import BaseManager
+import queue
+
 
 def read_header_length( msg ):
     header_length = 0
@@ -30,3 +33,16 @@ def send_data( soc , data ):
         length >>= 1
     header_str = header_str[::-1]
     soc.sendall( header_str.encode( 'ascii' ) + data )
+
+
+class QueueManager(BaseManager):
+    pass
+
+QueueManager.register('get_task_queue')
+QueueManager.register('get_result_queue')
+print( 'Connect to Lutece %s:%s.' % ( FETCH_SUBMISSION_ADDR , FETCH_SUBMISSION_PORT ) )
+m = QueueManager(address=(FETCH_SUBMISSION_ADDR, FETCH_SUBMISSION_PORT), authkey = FETCH_SUBMISSION_AUTHKEY )
+m.connect()
+task = m.get_task_queue()
+result = m.get_result_queue()
+print( 'Connect build complete' )

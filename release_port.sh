@@ -1,0 +1,1 @@
+kill -9 $(lsof -ti tcp:6106)

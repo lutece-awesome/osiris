@@ -1,13 +1,9 @@
-# HTTP or HTTPS?
-protocol = 'http://'
-# PORT
-PORT = '8000'
-# Server ip address
-web_server_ip = '127.0.0.1'
-# fetch url
-fetch_submission_url =  protocol + web_server_ip + ':' + PORT + '/submission/fetch/judge'
-# modify url
-modify_submission_url = protocol + web_server_ip + ':' + PORT + '/submission/modify/judge/'
+
+
+# lutece settings
+FETCH_SUBMISSION_ADDR = '127.0.0.1'
+FETCH_SUBMISSION_PORT = 6106
+FETCH_SUBMISSION_AUTHKEY = b'772002' # in producing envir, this should be sercet
 
 # md5_validator is to check whether the local file equals the data server's file.
 md5_validator = True

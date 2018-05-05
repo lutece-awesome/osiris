@@ -1,23 +1,24 @@
 import docker
 import language
 import settings
-from os import path
+from os import path, mkdir
 
-def create_tempfile( sourcefile , lang , code ):
+def create_tempfile( sourcefile , lang , code , work_dir ):
     '''
         Create the tempfile in work_dir to save the program
     '''
     if lang not in language.SUPPORT_LANGUAGE:
         return 'Compile Error' , 'Unsupported Language'
+    if path.isdir( work_dir ) == False:
+        mkdir( work_dir )
     try:
-        f = open( path.join(settings.work_dir , settings.sourcefile_extension.format(
+        f = open( path.join( work_dir , settings.sourcefile_extension.format(
             sourcefile = sourcefile,
             extension = language.get_extension( lang )
-        ))   
-        , 'w' )
+        )) , 'w' )
         f.write( code )
         f.close()
-    except:
+    except Exception as e:
         return 'Judger Error' , 'Can not create target file'
     return 'Success' , None
 
@@ -30,6 +31,7 @@ def compile( submission ):
     '''
     st , info = create_tempfile( 
         sourcefile = submission.sourcefile,
+        work_dir = submission.work_dir,
         lang = submission.language,
         code = submission.code
     )
@@ -44,7 +46,7 @@ def compile( submission ):
             image = settings.docker_repo_arguments.format(
                 repo_lang = language.get_image( submission.language )),
             network_disabled = True,
-            volumes = { path.join( settings.base_dir , settings.work_dir ) : {'bind':  '/opt' , 'mode':'rw' } },
+            volumes = { submission.work_dir : {'bind':  '/opt' , 'mode':'rw' } },
             working_dir = '/opt',
             mem_limit = settings.COMPILE_MEMORY,
             auto_remove = False,

@@ -1,7 +1,7 @@
 import docker
 from os import path
 from json import loads
-from settings import docker_repo_arguments, core_dir, checker_dir, work_dir, running_arguments
+from settings import docker_repo_arguments, core_dir, checker_dir, running_arguments
 from language import get_image, get_running_command
 from util.update import upload_result
 from report.models import Report
@@ -21,7 +21,7 @@ def run( sub ):
             sub.data_dir : {'bind':  '/opt' , 'mode':'rw' }, # mount data
             path.join( core_dir , running_core_file ) : { 'bind': path.join( '/home' , running_core_file ) , 'mode':'rw' }, # mount core
             path.join( checker_dir , running_checker_file ) : { 'bind': path.join( '/home' , running_checker_file ) , 'mode':'rw' }, # mount checker
-            path.join( work_dir , running_source_file )  : { 'bind': path.join( '/home' , running_source_file ) , 'mode':'rw' }}, # mount target program},
+            path.join( sub.work_dir , running_source_file )  : { 'bind': path.join( '/home' , running_source_file ) , 'mode':'rw' }}, # mount target program},
         network_disabled = True,
         cpuset_cpus = '1',
         working_dir = '/home',

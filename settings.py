@@ -11,7 +11,7 @@ COMPILE_MEMORY = '256mb'
 base_dir = '/home/xiper/Desktop/Osiris-Judge-Core'
 
 # Judge work dir, do not change this
-work_dir = path.join( base_dir , 'work' )
+base_work_dir = path.join( base_dir , 'work' )
 
 # checker dir, do not change this
 checker_dir = path.join( base_dir , 'checker' )

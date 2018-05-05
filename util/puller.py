@@ -1,5 +1,5 @@
-import socket , os , hashlib , settings
-from . import sync
+import socket , os , hashlib
+from . import sync , settings
 from pickle import dumps
 from . problem_locker import gloal_problem_lock
 

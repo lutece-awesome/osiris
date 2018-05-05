@@ -19,6 +19,7 @@ class Submission( object ):
         'checker',
         'case_number',
         'data_dir',
+        'work_dir',
         '_field'
     )
 
@@ -36,3 +37,16 @@ class Submission( object ):
     @property
     def attribute(self):
         return self._field
+    
+    receive_transfer_field = {
+        'submission_id' : 'submission'
+    }
+
+
+def parse( ** kwargs ):
+    for _ in Submission.receive_transfer_field:
+        ori = _
+        tr = Submission.receive_transfer_field[_]
+        kwargs[tr] = kwargs[_]
+        kwargs.pop( ori )
+    return kwargs
