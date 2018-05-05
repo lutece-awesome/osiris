@@ -1,6 +1,4 @@
-import os
-import settings
-
+import os , settings
 
 def sync( problem ):
     try:

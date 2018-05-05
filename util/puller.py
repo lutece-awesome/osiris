@@ -1,8 +1,5 @@
-import socket
-from . import sync, settings
+import socket , os , hashlib , settings , sync
 from pickle import dumps
-import os
-import hashlib
 from problem_locker import gloal_problem_lock
 
 def pull_data( problem , data_type ):
@@ -24,10 +21,17 @@ def pull_data( problem , data_type ):
         return None
     return ret
 
-def cal_md5_or_create( problem ):
+def cal_md5_or_create( problem , force = False ):
+    '''
+        Calcuate the md5-field of problem folder
+        if force is True, always create/update md5 file
+    '''
     try:
         path = os.path.join( settings.data_dir , str( problem ) )
-        li = list( filter( lambda x : os.path.split( x )[1] in settings.META_FIELD['md5'] , os.listdir( path ) ) )
+        li = os.listdir( path )
+        if 'md5' in li and force is False:
+            return True
+        li = list( filter( lambda x : os.path.splitext( x )[1] in settings.META_FIELD['md5'] , li ) )
         kwargs = []
         for _ in li:
             f = open( os.path.join( path , _ ) , "rb" )
@@ -35,7 +39,7 @@ def cal_md5_or_create( problem ):
             md5.update( f.read() )
             content = md5.hexdigest()
             f.close()
-            kwargs.append( _ , content )
+            kwargs.append( ( _ , content ) )
         kwargs.sort()
         f = open( os.path.join( path , 'md5' ) , "w" )
         f.write( str( kwargs ) )
@@ -45,22 +49,17 @@ def cal_md5_or_create( problem ):
     return True
 
 def check_cache( problem ):
+    '''
+        Check cache
+    '''
     try:
         recv = pull_data( problem , 'md5' )
-        path = os.path.join( settings.data_dir , str( problem ) )
-        li = os.listdir( path )
-        if len( li ) != len( recv ):
+        if recv is None:
             return False
-        for _ in li:
-            if _ not in recv:
-                return False
-            f = open( os.path.join( path , _ ) , "rb" )
-            md5 = hashlib.md5()
-            md5.update( f.read() )
-            content = md5.hexdigest()
-            if content != recv[_]:
-                return False
-            f.close()
+        cal_md5_or_create( problem )
+        recv.sort()
+        if recv != open( os.path.join( settings.data_dir , str( problem ) ) ).read():
+            return False
     except:
         return False
     return True

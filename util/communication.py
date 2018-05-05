@@ -1,5 +1,5 @@
 from pickle import loads
-from settings import header_length
+from .settings import header_length
 
 def read_header_length( msg ):
     header_length = 0
