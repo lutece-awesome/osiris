@@ -4,7 +4,7 @@
 
 
 
-Judge core based on Docker.
+Judge core based on Celery and Docker.
 
 ## Current Support Language
 

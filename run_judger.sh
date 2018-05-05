@@ -1,0 +1,1 @@
+celery -A osiris worker --loglevel=info -c 1
