@@ -29,7 +29,7 @@ Judge core based on Docker.
 
 + Install `docker`
 <pre>
-    suao apt-get update
+    sudo apt-get update
     sudo apt-get install docker.io
 </pre>
 

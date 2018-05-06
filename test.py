@@ -6,8 +6,8 @@ import time
 from compiler import compile
 from settings import base_work_dir
 from os import path
-from util.puller import pull, pull_data, check_cache
-from util import puller
+from util.puller import pull_data, check_cache
+from util.sync import rewrite
 
 
 def test_judge_from_file():
@@ -47,4 +47,6 @@ def test_compile():
 if __name__ == '__main__':
     # test_judge_from_file()
 #    print( puller.pull_data( 1 , 'md5' ) )
-    print( check_cache( 1 ) )
+   # print( check_cache( 1 ) )
+   t = pull_data( 2 , 'test-data' )
+   print( rewrite( 2 , t ) )

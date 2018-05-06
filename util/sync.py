@@ -1,18 +1,19 @@
-import os , settings
+from os import path, system
+from . settings import data_dir
 
 def sync( problem ):
     try:
-        path = os.path.join( settings.data_dir , str( problem ) )
-        os.system( 'rm ' + os.path.join( path , '*' ) )
+        dr = path.join( data_dir , str( problem ) )
+        system( 'rm ' + path.join( dr , '*' ) )
     except:
         return False
     return True
 
 def rewrite( problem , msg ):
     try:
-        path = os.path.join( settings.data_dir , str( problem ) )
+        dr = path.join( data_dir , str( problem ) )
         for _ in msg:
-            f = open( os.path.join( path , str( _ ) ) , "wb" )
+            f = open( path.join( dr , str( _ ) ) , "wb" )
             f.write( msg[_] )
             f.close()
     except:
