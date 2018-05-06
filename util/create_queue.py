@@ -1,5 +1,6 @@
 from multiprocessing.managers import BaseManager
 import queue
+from .settings import FETCH_SUBMISSION_ADDR, FETCH_SUBMISSION_PORT, FETCH_SUBMISSION_AUTHKEY
 
 class QueueManager(BaseManager):
     pass

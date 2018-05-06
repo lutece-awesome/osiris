@@ -1,5 +1,5 @@
 from pickle import loads
-from .settings import header_length, FETCH_SUBMISSION_ADDR, FETCH_SUBMISSION_PORT, FETCH_SUBMISSION_AUTHKEY, buffersize
+from .settings import header_length, buffersize
 
 
 def read_header_length( msg ):

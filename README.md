@@ -58,8 +58,15 @@ Judge core based on Docker.
 <pre>
     FETCH_SUBMISSION_ADDR = 'Lutece.address'
     FETCH_SUBMISSION_AUTHKEY = 'Lutece.settings.JUDGER_AUTHKEY'
+    data_dir = 'JUDGER_DATA dir'
 </pre>
 + Edit settings.py
 <pre>
     MAX_JUDGE_PROCESS = 'eq the number of CPU cores is better'
+</pre>
+
+
+## Run:
+<pre>
+    python3 osiris.py
 </pre>
