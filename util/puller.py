@@ -102,8 +102,8 @@ def pull( lock , problem ):
         lock.release()
 
 def get_case_number( problem ):
-    list_dir = os.listdir( os.path.join( data_dir , str( problem ) ) )
-    return len( list( filter( lambda x : os.path.splitext( x )[1] == '.in' , list_dir ) ) )
+    list_dir = listdir( path.join( data_dir , str( problem ) ) )
+    return len( list( filter( lambda x : path.splitext( x )[1] == '.in' , list_dir ) ) )
 
 def get_data_dir( problem ):
-    return os.path.join( data_dir , str( problem ) )
+    return path.join( data_dir , str( problem ) )
