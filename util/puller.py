@@ -2,7 +2,7 @@ import socket , os , hashlib
 from pickle import dumps
 from .problem_locker import gloal_problem_lock
 from .communication import send_data, recv_data
-from .settings import time_out, data_server, port, META_FIELD, data_dir
+from .settings import time_out, data_server, port, META_FIELD, data_dir, md5_validator
 from .sync import rewrite
 
 def pull_data( problem , data_type ):
@@ -86,6 +86,7 @@ def pull( lock , problem ):
     except RuntimeError:
         return False , 'Pull-data time out'
     except Exception as e:
+        print( str( e ) )
         return False , str( e )
     finally:
         lock.release()

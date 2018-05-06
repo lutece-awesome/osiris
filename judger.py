@@ -14,9 +14,9 @@ def judge_submission( submission ):
             result = 'Judger Error',
             case = 1,
             submission = submission.submission,
-            additional_info = 'Can not upload data',
+            additional_info = 'Can not pull data',
             complete = True))
-        raise RuntimeError( "Can not pull problem" )
+        raise RuntimeError( "Can not pull data from server" )
     result , information = compile( 
         submission = submission)
     if result == 'Judger Error' or result == 'Compile Error':
