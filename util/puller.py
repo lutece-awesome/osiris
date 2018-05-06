@@ -2,7 +2,7 @@ import socket , os , hashlib
 from pickle import dumps
 from .problem_locker import gloal_problem_lock
 from .communication import send_data, recv_data
-from .settings import time_out, data_server, port, META_FIELD
+from .settings import time_out, data_server, port, META_FIELD, data_dir
 from .sync import rewrite
 
 def pull_data( problem , data_type ):
@@ -16,16 +16,11 @@ def pull_data( problem , data_type ):
     try:
         s = socket.socket( socket.AF_INET , socket.SOCK_STREAM )
         s.settimeout( time_out )
-        print( 'connect' )
         s.connect( ( data_server , port ) )
-        print( 'connect completed' )
         send_data( s , dumps( msg , 2 ) )
-        print( 'send data complete' )
         ret = recv_data( s )
-        print( 'recv complete' )
         s.close()
     except Exception as e:
-        print( str( e ) )
         return None
     return ret
 
@@ -65,10 +60,13 @@ def check_cache( problem ):
         if recv is None:
             return False
         cal_md5_or_create( problem )
-        recv.sort()
-        if recv != open( os.path.join( data_dir , str( problem ) ) ).read():
+        f = open( os.path.join( data_dir , str( problem ) , 'md5' ) , "rb" )
+        t = f.read()
+        f.close()
+        if recv != t:
             return False
-    except:
+    except Exception as e:
+        print( str( e ) )
         return False
     return True
 
