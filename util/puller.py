@@ -2,7 +2,7 @@ import socket , os , hashlib
 from pickle import dumps
 from .problem_locker import gloal_problem_lock
 from .communication import send_data, recv_data
-from .settings import time_out, data_server, port, META_FIELD, data_dir, md5_validator
+from .settings import time_out, data_server, port, META_FIELD, data_dir, md5_validator, FETCH_SUBMISSION_AUTHKEY
 from .sync import rewrite
 
 def pull_data( problem , data_type ):
@@ -12,7 +12,8 @@ def pull_data( problem , data_type ):
     '''
     msg = {
         'problem' : problem,
-        'type' : data_type}
+        'type' : data_type,
+        'authkey' : FETCH_SUBMISSION_AUTHKEY}
     try:
         s = socket.socket( socket.AF_INET , socket.SOCK_STREAM )
         s.settimeout( time_out )
