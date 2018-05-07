@@ -1,4 +1,4 @@
-from os import path, system
+from os import path, system, mkdir
 from . settings import data_dir
 
 def sync( problem ):
@@ -12,6 +12,8 @@ def sync( problem ):
 def rewrite( problem , msg ):
     try:
         dr = path.join( data_dir , str( problem ) )
+        if path.isdir( dr ) == False:
+            mkdir( dr )
         for _ in msg:
             f = open( path.join( dr , str( _ ) ) , "wb" )
             f.write( msg[_] )
