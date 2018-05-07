@@ -1,5 +1,5 @@
 # Osiris-Judge-Core
-[![Python](https://img.shields.io/badge/python-3.5.2-orange.svg?style=flat-square)](https://www.python.org/downloads/release/python-352/)
+[![Python](https://img.shields.io/badge/python-3.5.4-orange.svg?style=flat-square)](https://www.python.org/downloads/release/python-354/)
 [![License](https://img.shields.io/badge/License-GPLv3-ff69b4.svg?style=flat-square)](https://www.gnu.org/licenses/gpl.html)
 
 
@@ -27,11 +27,7 @@ Judge core based on Docker.
     git submodule update
 </pre>
 
-+ Install `docker`
-<pre>
-    sudo apt-get update
-    sudo apt-get install docker.io
-</pre>
++ Install [`docker-ce`](https://docs.docker.com/install/linux/docker-ce/ubuntu/#install-docker-ce-1)
 
 + Install requirements
 <pre>
@@ -62,9 +58,9 @@ Judge core based on Docker.
 </pre>
 + Edit settings.py
 <pre>
+    base_dir = 'your osiris dir'
     MAX_JUDGE_PROCESS = 'eq the number of CPU cores is better'
 </pre>
-
 
 ## Run:
 <pre>
