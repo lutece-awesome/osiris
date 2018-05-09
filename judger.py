@@ -9,14 +9,15 @@ def judge_submission( submission ):
     '''
         Judge the target submission
     '''
-    if pull( lock = gloal_problem_lock.get( submission.problem ) , problem = submission.problem ) == False:
+    st , info = pull( lock = gloal_problem_lock.get( submission.problem ) , problem = submission.problem )
+    if st == False:
         upload_result( Report(
             result = 'Judger Error',
             case = 1,
             submission = submission.submission,
             additional_info = 'Can not pull data',
             complete = True))
-        raise RuntimeError( "Can not pull data from server" )
+        raise RuntimeError( "Pull error: " + str( info ) )
     result , information = compile( 
         submission = submission)
     if result == 'Judger Error' or result == 'Compile Error':
