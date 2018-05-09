@@ -1,9 +1,9 @@
 from requests import post
-from .create_queue import result
+from . import JudgeQueue
 
 def upload_result( report ):
     '''
         Send the report to the server
     '''
     print( report.attribute )
-    result.put( report.attribute )
+    JudgeQueue.result.put( report.attribute )

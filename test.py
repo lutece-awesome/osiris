@@ -15,10 +15,10 @@ def test_judge_from_file():
         submission = Submission(
             submission = 10 ,
             language = 'GNU G++17',
-            code = open( 'work/Process-0/main.cpp' , "r" ).read(),
+            code = open( 'testcase/mle.cpp' , "r" ).read(),
             sourcefile = 'main',
             time_limit = 1494,
-            memory_limit = 1022,
+            memory_limit = 128,
             output_limit = 64,
             stack_limit = 64,
             checker = 'wcmp',
@@ -45,8 +45,8 @@ def test_compile():
 
 
 if __name__ == '__main__':
-    # test_judge_from_file()
+    test_judge_from_file()
 #    print( puller.pull_data( 1 , 'md5' ) )
    # print( check_cache( 1 ) )
-   t = pull_data( 2 , 'test-data' )
-   print( rewrite( 2 , t ) )
+#    t = pull_data( 2 , 'test-data' )
+#    print( rewrite( 2 , t ) )

@@ -25,6 +25,9 @@
     + argv[9]: Checker sourcefile
  * EXITCODE:
     + 152 = 24 = CPU TIME EXCEEDED
+    + 134 = 6 = MLE( Aborted )
+ * Debug:
+    printf( "%d %d %s %ld\n" , WEXITSTATUS(status) , status_code , strsignal( status_code ) , result.ru_maxrss );
  *****************************************************************************/
 long long timelimit, memorylimit, outputlimit, stacklimit;
 int Exceeded_wall_clock_time;
@@ -82,11 +85,11 @@ int main( int argc , char * argv[] ){
         wait4( pid , & status , 0 , & result );
         int status_code = get_status_code( WEXITSTATUS(status) );
         if( status_code == -1 ) errExit( "Unknown Error" );
-        if( status_code == 127 ) errExit( "Can not run target program" );
+        if( status_code == 127 ) errExit( "Can not run target program( command not found )" );
         long long timecost = ( long long )result.ru_utime.tv_sec * 1000000ll + ( long long )result.ru_utime.tv_usec;
         if( status_code == SIGXCPU || timecost > 1ll * timelimit * 1000 || Exceeded_wall_clock_time ) goodExit( "Time Limit Exceeded" , timelimit , result.ru_maxrss  );
         if( status_code == SIGXFSZ ) goodExit( "Output Limit Exceeded" , timecost / 1000 , result.ru_maxrss );
-        if( result.ru_maxrss > memorylimit ) goodExit( "Memory Limit Exceeded" , timecost / 1000 , result.ru_maxrss );
+        if( result.ru_maxrss * 1024 > memorylimit || status_code == SIGIOT ) goodExit( "Memory Limit Exceeded" , timecost / 1000 , memorylimit / 1024 );
         if( status_code != 0 ) goodExit( "Runtime Error" , timecost / 1000 , result.ru_maxrss );
         int checker_statuscode = system( checker_arguments );
         if( checker_statuscode == 0 ) goodExit( "Accepted" , timecost / 1000 , result.ru_maxrss ); 
@@ -97,7 +100,7 @@ int main( int argc , char * argv[] ){
         if( freopen( output_sourcefile , "w" , stdout ) == NULL ) errExit( "Can not redirect stdout" );
         if( setuid( judge_user ) ) errExit( "Can not set uid" );
         set_limit( RLIMIT_CPU , ( timelimit + 999 ) / 1000 , 1 ); // set cpu_time limit
-        set_limit( RLIMIT_AS , memorylimit , ( 1 << 10 ) * ( 1 << 10 ) ); // set memory limit, extra memory : 1mb
+        set_limit( RLIMIT_DATA , memorylimit , 0 ); // set memory limit, extra memory : 1mb
         set_limit( RLIMIT_FSIZE , outputlimit , 0 ); // set output limit
         set_limit( RLIMIT_STACK , stacklimit , 0 ); // set stack limit
         execl( "/bin/sh", "sh", "-c",  running_arguments , (char *) 0);

@@ -2,7 +2,7 @@ import queue
 from submission.models import Submission, parse
 from multiprocessing.managers import BaseManager
 from multiprocessing import Process
-from util.create_queue import task, result
+from util import JudgeQueue
 from settings import MAX_JUDGE_PROCESS , base_work_dir
 from os import path
 from judger import judge_submission
@@ -11,7 +11,7 @@ from judger import judge_submission
 def JudgingProcess( name ):
     while True:
         try:
-            n = task.get( block = True )
+            n = JudgeQueue.task.get( block = True )
             n = parse( ** n )
             sub = Submission( ** { ** n , ** {
                 'work_dir' : path.join( base_work_dir , name ),
