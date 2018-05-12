@@ -8,7 +8,7 @@ COMPILE_TIMEOUT = 2.0 # 2.0 seconds
 COMPILE_MEMORY = '256mb'
 
 # set base dir
-base_dir = '/home/xiper/Desktop/Osiris-Judge-Core'
+base_dir = path.dirname(path.abspath(__file__))
 
 # Judge work dir, do not change this
 base_work_dir = path.join( base_dir , 'work' )

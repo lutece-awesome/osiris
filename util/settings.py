@@ -1,4 +1,4 @@
-
+from os import path
 
 # lutece settings
 FETCH_SUBMISSION_ADDR = '127.0.0.1'
@@ -10,7 +10,7 @@ FETCH_DATA_URL =  'http://' + FETCH_SUBMISSION_ADDR + ':8000' + '/data_server/fe
 md5_validator = True
 
 # Judge data dir
-data_dir = '/home/xiper/Desktop/Judge_Data'
+data_dir = path.join( path.dirname(path.dirname(path.abspath(__file__))) , 'Judge_Data' )
 
 # field
 META_FIELD = {
