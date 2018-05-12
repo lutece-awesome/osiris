@@ -20,4 +20,4 @@ META_FIELD = {
 }
 
 # Pull data thread lock time out( second )
-lock_time_out = 60.0
+lock_time_out = 300.0

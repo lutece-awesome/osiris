@@ -12,7 +12,7 @@ def sync( problem ):
 def rewrite( problem , msg ):
     try:
         dr = path.join( data_dir , str( problem ) )
-        if path.isdir( dr ) == False:
+        if path.exists( dr ) == False:
             mkdir( dr )
         for _ in msg:
             f = open( path.join( dr , str( _ ) ) , "wb" )
