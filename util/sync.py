@@ -11,6 +11,7 @@ def sync( problem ):
 
 def rewrite( problem , msg ):
     try:
+        sync( problem )
         dr = path.join( data_dir , str( problem ) )
         if path.exists( dr ) == False:
             mkdir( dr )
