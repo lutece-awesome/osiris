@@ -1,3 +1,4 @@
 docker==3.3.0
-docker-pycreds==0.2.2
+docker-pycreds==0.2.3
 progressive==0.3.3
+celery==4.1.0

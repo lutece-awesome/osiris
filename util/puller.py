@@ -1,7 +1,7 @@
 import hashlib
 from pickle import loads as pickle_loads
 from json import dumps as json_dumps
-from .settings import META_FIELD, data_dir, md5_validator, FETCH_SUBMISSION_AUTHKEY, FETCH_DATA_URL, lock_time_out
+from .settings import META_FIELD, data_dir, md5_validator, FETCH_DATA_AUTHKEY, FETCH_DATA_URL, lock_time_out
 from .sync import rewrite
 from requests import post
 from os import path , listdir
@@ -31,7 +31,7 @@ def pull_data( problem , data_type ):
     msg = {
         'problem' : problem,
         'type' : data_type,
-        'authkey' : FETCH_SUBMISSION_AUTHKEY }
+        'authkey' : FETCH_DATA_AUTHKEY }
     try:
         r = post(
             url = FETCH_DATA_URL,

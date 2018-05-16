@@ -114,3 +114,4 @@ test.sh
 work/*
 do.cpp
 Judge_Data/
+celeryconfig.py

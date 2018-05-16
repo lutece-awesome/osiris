@@ -4,7 +4,7 @@
 
 
 
-Judge core based on Docker.
+Judge core based on Celery and Docker.
 
 ## Current Support Language
 
@@ -49,20 +49,43 @@ Judge core based on Docker.
     cd core && gcc -o core.bin core.c -O2 -lpthread
 </pre>
 
-## Config
-+ Edit util.settings.py
++ Install rabbitmq-server
+
 <pre>
-    FETCH_SUBMISSION_ADDR = 'Lutece.address'
-    FETCH_SUBMISSION_AUTHKEY = 'Lutece.settings.JUDGER_AUTHKEY'
-    data_dir = 'JUDGER_DATA dir'
+    sudo apt-get update
+    sudo apt-get install rabbitmq-server
+    sudo systemctl enable rabbitmq-server
+    sudo systemctl start rabbitmq-server
+    sudo systemctl status rabbitmq-server
 </pre>
+
+## Config
+
++ Edit util/settings.py
+<pre>
+    FETCH_DATA_ADDR = Lutece.address
+    FETCH_DATA_AUTHKEY = Lutece.data_server.authkey
+    ! You may pay attention to http or https
+</pre>
+
 + Edit settings.py
 <pre>
-    base_dir = 'your osiris dir'
-    MAX_JUDGE_PROCESS = 'eq the number of CPU cores is better'
+    MAX_JUDGE_PROCESS = the number of worker process
+</pre>
+
++ Edit celeryconfig.py
+<pre>
+    cp celeryconfig.py.template celeryconfig.py
+    rabbitmq_ip = Lutece.address
+    rabbitmq_pwd = Lutece.rabbitmq.judge_user.password
 </pre>
 
 ## Run:
 <pre>
-    python3 osiris.py
+    sh run_worker.sh
+</pre>
+
+## Close
+<pre>
+    Press ctrl + c close worker
 </pre>
