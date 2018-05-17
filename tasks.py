@@ -1,8 +1,10 @@
 from celery import Celery
 from celeryconfig import broker
 from billiard import Semaphore, Process, current_process
-from settings import MAX_JUDGE_PROCESS
+from settings import MAX_JUDGE_PROCESS, base_work_dir
 from judger import judge_submission
+from submission.models import Submission, parse
+from os import path
 
 
 app = Celery(
@@ -28,9 +30,9 @@ def JudgingProcess( submission ):
     except Exception as e:
         print( name , 'error happen:' , str( e ) )
     finally:
-        seq.release()
+        sep.release()
 
-@app.task
+@app.task( name = 'Judger.task' )
 def Submission_task( submission ):
     sep.acquire()
-    Process( target = run , args = ( submission , ) , daemon = True ).start()
+    Process( target = JudgingProcess , args = ( submission , ) , daemon = True ).start()
