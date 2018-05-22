@@ -5,6 +5,7 @@ from settings import MAX_JUDGE_PROCESS, base_work_dir
 from judger import judge_submission
 from submission.models import Submission, parse
 from os import path
+from util.problem_locker import gloal_problem_lock
 
 
 app = Celery(
@@ -33,6 +34,10 @@ def JudgingProcess( submission ):
         sep.release()
 
 @app.task( name = 'Judger.task' )
-def Submission_task( submission ):
+def get_submission_task( submission ):
     sep.acquire()
     Process( target = JudgingProcess , args = ( submission , ) , daemon = True ).start()
+
+@app.task( name = 'Judger.result' )
+def upload_result_into_queue( report ):
+    pass

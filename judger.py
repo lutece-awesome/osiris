@@ -1,6 +1,6 @@
 from util.puller import pull, get_case_number, get_data_dir
 from util.problem_locker import gloal_problem_lock
-from util.update import upload_result
+from update import upload_result
 from report.models import Report
 from compiler import compile
 from runner import run

@@ -3,7 +3,7 @@ from os import path
 # lutece settings
 FETCH_DATA_ADDR = '127.0.0.1'
 FETCH_DATA_AUTHKEY = b'772002' # in producing envir, this should be sercet
-FETCH_DATA_URL =  'http://' + FETCH_DATA_ADDR + ':80' + '/data_server/fetch/'
+FETCH_DATA_URL =  'http://' + FETCH_DATA_ADDR + ':8000' + '/data_server/fetch/'
 
 # md5_validator is to check whether the local file equals the data server's file.
 md5_validator = True

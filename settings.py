@@ -4,7 +4,7 @@ from os import path, getcwd
 MAX_JUDGE_PROCESS = 4
 
 # compile settings
-COMPILE_TIMEOUT = 2.0 # 2.0 seconds
+COMPILE_TIMEOUT = 10.0 # 10.0 seconds
 COMPILE_MEMORY = '256mb'
 
 # set base dir
@@ -33,4 +33,5 @@ running_arguments = './core.bin {time_limit} {memory_limit} {output_limit} {stac
                     \"{input_sourcefile}\" \"{output_sourcefile}\" \"{answer_sourcefile}\"   \
                     \"{running_arguments}\" \"{checker_sourcefile}\"'
 
-                    
+# do not change this
+RESULT_QUEUE = 'result'

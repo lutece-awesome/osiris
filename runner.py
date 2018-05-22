@@ -3,7 +3,7 @@ from os import path
 from json import loads
 from settings import docker_repo_arguments, core_dir, checker_dir, running_arguments
 from language import get_image, get_running_command
-from util.update import upload_result
+from update import upload_result
 from report.models import Report
 
 def run( sub ):
