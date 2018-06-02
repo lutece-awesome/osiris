@@ -2,7 +2,9 @@
 SUPPORT_LANGUAGE = {
     'GNU G++17':{
         'image' : 'osiris-gcc:7.3.0',
+        'running_extension' : '.bin',
         'extension' : 'cpp',
+        'compile' : True,
         'compile_command' : 'g++ -w -O2 -DONLINE_JUDGE -fmax-errors=15 --std=gnu++17 \
                             {sourcefile}.{extension} -lm -o {sourcefile}.bin',
         'running_command' : './{sourcefile}.bin'
@@ -21,9 +23,10 @@ SUPPORT_LANGUAGE = {
 
     'Python 3.6.5':{
         'image' : 'osiris-python:3.6.5-stretch',
-        'extension' : 'py',        
-        'compile_command' : 'mv {sourcefile}.{extension} {sourcefile}.bin',
-        'running_command' : 'python3 {sourcefile}.bin'
+        'running_extension' : '.py',
+        'extension' : 'py',
+        'compile' : False,
+        'running_command' : 'python3 {sourcefile}.py'
     },
 
     'Python 2.7.12':{
@@ -47,3 +50,9 @@ def get_image( lang ):
 
 def get_running_command( lang ):
     return SUPPORT_LANGUAGE[lang]['running_command']
+
+def get_running_extension( lang ):
+    return SUPPORT_LANGUAGE[lang]['running_extension']
+
+def need_compile_ornot( lang ):
+    return SUPPORT_LANGUAGE[lang]['compile']

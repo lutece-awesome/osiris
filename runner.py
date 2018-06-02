@@ -2,7 +2,7 @@ import docker
 from os import path
 from json import loads
 from settings import docker_repo_arguments, core_dir, checker_dir, running_arguments
-from language import get_image, get_running_command
+from language import get_image, get_running_command, get_running_extension
 from update import upload_result
 from report.models import Report
 
@@ -13,7 +13,10 @@ def run( sub ):
     client = docker.from_env()
     running_core_file = 'core.bin'
     running_checker_file = sub.checker + '.bin'
-    running_source_file = sub.sourcefile + '.bin'
+    running_source_file = sub.sourcefile + get_running_extension( sub.language )
+    upload_result( Report(
+        result = 'Running',
+        submission = sub.submission ))
     s = client.containers.run(
         image = docker_repo_arguments.format(
             repo_lang = get_image( sub.language ),),
@@ -33,11 +36,6 @@ def run( sub ):
         s.exec_run( privileged = True , cmd = 'chmod 700 ' + str( running_core_file ) + ' ' + str( running_checker_file ))
         s.exec_run( privileged = True , cmd = 'chmod 777 ' + str( running_source_file ) )
         for i in range( 1 , sub.case_number + 1 ):
-            upload_result( report = Report( 
-                result = 'Running', 
-                case = i, 
-                submission = sub.submission,
-                complete = False) )
             running_command = running_arguments.format(
                 time_limit = sub.time_limit,
                 memory_limit = sub.memory_limit * 1024 * 1024,
