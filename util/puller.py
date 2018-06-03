@@ -110,3 +110,9 @@ def get_case_number( problem ):
 
 def get_data_dir( problem ):
     return path.join( data_dir , str( problem ) )
+
+def get_test_case( problem ):
+    list_dir = listdir( path.join( data_dir , str( problem ) ) )
+    ret = list( filter( lambda x : path.splitext( x )[1] == '.in' , list_dir ) )
+    ret.sort( key = lambda x: ( len( x ) , x ) )
+    return [ ( x , path.splitext( x )[0] + '.out' ) for x in ret ]

@@ -17,7 +17,7 @@ class Submission( object ):
         'sourcefile',
         'code',
         'checker',
-        'case_number',
+        'case',
         'data_dir',
         'work_dir',
         '_field'

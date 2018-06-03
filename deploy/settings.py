@@ -50,3 +50,21 @@ class Language( Enum ):
         image = 'osiris-java:10',
         file = 'Java'
     )
+    GO = _meta(
+        full = 'Go',
+        version = '1.10.2',
+        image = 'osiris-go:1.10.2',
+        file = 'Go'
+    )
+    RUBY = _meta(
+        full = 'Ruby',
+        version = '2.5.1',
+        image = 'osiris-ruby:2.5.1',
+        file = 'Ruby'
+    )
+    RUST = _meta(
+        full = 'Rust',
+        version = '1.26.1',
+        image = 'osiris-rust:1.26.1',
+        file = 'Rust'
+    )

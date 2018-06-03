@@ -78,8 +78,36 @@ class Language( Enum ):
         extension = '.java',
         compile = True,
         compile_command = 'javac {sourcefile}.java',
-        running_command = 'java -Xcomp {sourcefile}',
+        running_command = 'java {sourcefile}',
         running_extension = '.class'
+    )
+    GO = _meta(
+        full = 'Go',
+        version = '1.10.2',
+        image = 'osiris-go:1.10.2',
+        extension = '.go',
+        compile = False,
+        running_command = 'go run {sourcefile}.go',
+        running_extension = '.go'
+    )
+    RUBY = _meta(
+        full = 'Ruby',
+        version = '2.5.1',
+        image = 'osiris-ruby:2.5.1',
+        extension = '.rb',
+        compile = False,
+        running_command = 'ruby {sourcefile}.rb',
+        running_extension = '.rb'
+    )
+    RUST = _meta(
+        full = 'Rust',
+        version = '1.26.1',
+        image = 'osiris-rust:1.26.1',
+        extension = '.rs',
+        compile = True,
+        compile_command = 'rustc -O {sourcefile}.rs -o {sourcefile}.bin',
+        running_command = './{sourcefile}.bin',
+        running_extension = '.bin'
     )
 
 def get_language( language ):

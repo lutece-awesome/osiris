@@ -52,7 +52,7 @@ void genrate_checker_command(){
 }
 
 void wait_to_kill_childprocess(){
-    sleep( ( ( timelimit + 999 ) / 1000 ) + 1 );
+    sleep( timelimit << 1 );
     kill( pid , 9 );
     Exceeded_wall_clock_time = 1;
 }

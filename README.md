@@ -13,7 +13,7 @@ Judge core based on Celery and Docker.
 + GNU GCC 7.3
 + Python 3.6.5
 + Java 10(OpenJDK Runtime Environment (build 10.0.1+10-Debian-4)
-+ Go 1.9.2
++ Go 1.10.2
 + Ruby 2.5.1
 + Rust 1.25.0
 

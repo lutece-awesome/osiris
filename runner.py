@@ -35,26 +35,25 @@ def run( sub ):
         s.exec_run( privileged = True , cmd = 'chmod -R 700 /opt' )
         s.exec_run( privileged = True , cmd = 'chmod 700 ' + str( running_core_file ) + ' ' + str( running_checker_file ))
         s.exec_run( privileged = True , cmd = 'chmod 777 ' + str( running_source_file ) )
-        for i in range( 1 , sub.case_number + 1 ):
+        for i , x in enumerate( sub.case ):
             running_command = running_arguments.format(
                 time_limit = sub.time_limit,
                 memory_limit = sub.memory_limit * 1024 * 1024,
                 output_limit = sub.output_limit * 1024 * 1024,
                 stack_limit = sub.stack_limit * 1024 * 1024,
-                input_sourcefile = path.join( '/opt' , str( i ) + '.in' ),
+                input_sourcefile = path.join( '/opt' , x[0] ),
                 output_sourcefile = 'user.out',
-                answer_sourcefile = path.join( '/opt' , str( i ) + '.out' ),
+                answer_sourcefile = path.join( '/opt' , x[1] ),
                 running_arguments = sub.language.value.running_command.format( sourcefile = sub.sourcefile ),
                 checker_sourcefile = sub.checker)
             ret = s.exec_run(
                 privileged = True,
                 cmd = running_command )
-            print( running_command )
             exit_code , output = int( ret[0] ) , loads( ret[1].decode( 'utf-8' ) )
             output['result'] = get_judge_result( output['result'] )
-            output['case'] = i
+            output['case'] = i + 1
             output['submission'] = sub.submission
-            if output['result'] is Judge_result.AC and i != sub.case_number:
+            if output['result'] is Judge_result.AC and i != len( sub.case ) - 1:
                 output['complete'] = False
             else:
                 output['complete'] = True

@@ -1,4 +1,4 @@
-from util.puller import pull, get_case_number, get_data_dir
+from util.puller import pull, get_data_dir, get_test_case
 from util.problem_locker import gloal_problem_lock
 from update import upload_result
 from report.models import Report
@@ -60,6 +60,14 @@ def judge_submission( submission ):
             if result is Judge_result.JE:
                 raise RuntimeError( "Judger Error during compiling: " + str( information ) )
             return
-    submission.case_number = get_case_number( submission.problem )
+    submission.case = get_test_case( submission.problem )
+    if len( submission.case ) == 0:
+        upload_result( Report(
+                result = Judge_result.JE,
+                case = 1,
+                complete = True,
+                submission = submission.submission,
+                additional_info = 'No test-case'))
+        raise RuntimeError( "Judger Error, because there is no test-data" )
     submission.data_dir = get_data_dir( get_data_dir( submission.problem ) )
     run( sub = submission )
