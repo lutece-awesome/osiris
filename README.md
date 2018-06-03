@@ -66,6 +66,7 @@ Judge core based on Celery and Docker.
 
 + Edit util/settings.py
 <pre>
+    cp util/settings.py.template util/settings.py
     FETCH_DATA_ADDR = Lutece.address
     FETCH_DATA_AUTHKEY = Lutece.data_server.authkey
     ! You may pay attention to http or https
@@ -73,6 +74,7 @@ Judge core based on Celery and Docker.
 
 + Edit settings.py
 <pre>
+    cp settings.py.template settings.py
     MAX_JUDGE_PROCESS = the number of worker process
 </pre>
 
