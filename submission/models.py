@@ -26,27 +26,14 @@ class Submission( object ):
     def __init__( self , ** kw ):
         for _ in kw:
             self.__setattr__( _ , kw[_] )
-        self._field = kw
+        self._field = [x for x in kw]
 
     def __str__(self):
-        return self.submission
+        return self.full
 
     def __repr__(self):
-        return str( self._field )
-
+        return str( self.full )
+    
     @property
     def attribute(self):
-        return self._field
-    
-    receive_transfer_field = {
-        'submission_id' : 'submission'
-    }
-
-
-def parse( ** kwargs ):
-    for _ in Submission.receive_transfer_field:
-        ori = _
-        tr = Submission.receive_transfer_field[_]
-        kwargs[tr] = kwargs[_]
-        kwargs.pop( ori )
-    return kwargs
+        return { x : getattr( self , x ) for x in self._field }

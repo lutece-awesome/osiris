@@ -3,7 +3,8 @@ from celeryconfig import broker
 from billiard import Semaphore, Process, current_process
 from settings import MAX_JUDGE_PROCESS, base_work_dir
 from judger import judge_submission
-from submission.models import Submission, parse
+from submission.models import Submission
+from parser import parse
 from os import path
 from util.problem_locker import gloal_problem_lock
 

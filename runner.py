@@ -2,9 +2,9 @@ import docker
 from os import path
 from json import loads
 from settings import docker_repo_arguments, core_dir, checker_dir, running_arguments
-from language import get_image, get_running_command, get_running_extension
 from update import upload_result
 from report.models import Report
+from judge_result import Judge_result, get_judge_result
 
 def run( sub ):
     '''
@@ -13,13 +13,13 @@ def run( sub ):
     client = docker.from_env()
     running_core_file = 'core.bin'
     running_checker_file = sub.checker + '.bin'
-    running_source_file = sub.sourcefile + get_running_extension( sub.language )
+    running_source_file = sub.sourcefile + sub.language.value.running_extension
     upload_result( Report(
-        result = 'Running',
+        result = Judge_result.RN,
         submission = sub.submission ))
     s = client.containers.run(
         image = docker_repo_arguments.format(
-            repo_lang = get_image( sub.language ),),
+            repo_lang = sub.language.value.image),
         volumes={
             sub.data_dir : {'bind':  '/opt' , 'mode':'rw' }, # mount data
             path.join( core_dir , running_core_file ) : { 'bind': path.join( '/home' , running_core_file ) , 'mode':'rw' }, # mount core
@@ -44,20 +44,21 @@ def run( sub ):
                 input_sourcefile = path.join( '/opt' , str( i ) + '.in' ),
                 output_sourcefile = 'user.out',
                 answer_sourcefile = path.join( '/opt' , str( i ) + '.out' ),
-                running_arguments = get_running_command( sub.language ).format( sourcefile = sub.sourcefile ),
+                running_arguments = sub.language.value.running_command.format( sourcefile = sub.sourcefile ),
                 checker_sourcefile = sub.checker)
             ret = s.exec_run(
                 privileged = True,
                 cmd = running_command )
             exit_code , output = int( ret[0] ) , loads( ret[1].decode( 'utf-8' ) )
+            output['result'] = get_judge_result( output['result'] )
             output['case'] = i
             output['submission'] = sub.submission
-            if output['result'] == 'Accepted' and i != sub.case_number:
+            if output['result'] is Judge_result.AC and i != sub.case_number:
                 output['complete'] = False
             else:
                 output['complete'] = True
             upload_result( report = Report( ** output ) )
-            if output['result'] != 'Accepted':
+            if output['result'] is not Judge_result.AC:
                 break
     finally:
         s.remove( force = True )

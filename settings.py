@@ -26,7 +26,7 @@ max_compile_error_length = 480
 docker_repo_arguments = '{repo_lang}'
 
 # set source file name arguments
-sourcefile_extension = '{sourcefile}.{extension}'
+sourcefile_extension = '{sourcefile}{extension}'
 
 # running arguments
 running_arguments = './core.bin {time_limit} {memory_limit} {output_limit} {stack_limit}     \

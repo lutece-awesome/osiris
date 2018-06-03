@@ -1,11 +1,7 @@
 import os
-import settings
-import time
-
-list_dir = list( filter( lambda x: x in settings.Lang , os.listdir() ) )
+from settings import Language
 
 
-for i , _ in enumerate( list_dir ):
-    running_arguments = 'docker build -t ' + settings.Lang[_] + ' \"' + os.path.join( str( _ ) , '' ) + "\""
-    #print( running_arguments )
+for each_lang in Language:
+    running_arguments = 'docker build -t ' + each_lang.value.image + ' \"' + os.path.join( each_lang.value.file , '' ) + "\""
     os.system( running_arguments )
