@@ -66,10 +66,20 @@ class Language( Enum ):
         full = 'Python',
         version = '3.6.5',
         image = 'osiris-python:3.6.5-stretch',
-        extension = '.py',        
+        extension = '.py',
         compile = False,
         running_command = 'python3 {sourcefile}.py',
         running_extension = '.py'
+    )
+    JAVA = _meta(
+        full = 'Java',
+        version = '10',
+        image = 'osiris-java:10',
+        extension = '.java',
+        compile = True,
+        compile_command = 'javac {sourcefile}.java',
+        running_command = 'java -Xcomp {sourcefile}',
+        running_extension = '.class'
     )
 
 def get_language( language ):

@@ -44,3 +44,9 @@ class Language( Enum ):
         image = 'osiris-python:3.6.5-stretch',
         file = 'Python'
     )
+    JAVA = _meta(
+        full = 'Java',
+        version = '10',
+        image = 'osiris-java:10',
+        file = 'Java'
+    )

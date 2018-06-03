@@ -26,7 +26,7 @@ def JudgingProcess( submission ):
             'work_dir' : path.join( base_work_dir , name ),
             'output_limit' : 64,
             'stack_limit' : 64,
-            'sourcefile': 'main' }})
+            'sourcefile': 'Main' }})
         print( name , 'got submission, start juding(%s)' % ( str( sub.submission ) )  )
         judge_submission( sub )
     except Exception as e:

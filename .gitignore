@@ -115,3 +115,5 @@ work/*
 do.cpp
 Judge_Data/
 celeryconfig.py
+core/Main.java
+core/Main.class

@@ -30,9 +30,8 @@ def compile( submission ):
     except Exception as e:
         return Judge_result.JE , str( e )
     finally:
-        pass
-        # if 's' in dir():
-        #     s.remove( force = True ) # No matter how this container work, we should remove this container force finally
+        if 's' in dir():
+            s.remove( force = True ) # No matter how this container work, we should remove this container force finally
     if status == 0:
         return 'Success' , None
     return Judge_result.CE , info[:min( len(info) , settings.max_compile_error_length )]

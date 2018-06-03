@@ -49,6 +49,7 @@ def run( sub ):
             ret = s.exec_run(
                 privileged = True,
                 cmd = running_command )
+            print( running_command )
             exit_code , output = int( ret[0] ) , loads( ret[1].decode( 'utf-8' ) )
             output['result'] = get_judge_result( output['result'] )
             output['case'] = i
