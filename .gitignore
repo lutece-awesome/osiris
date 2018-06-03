@@ -117,3 +117,6 @@ Judge_Data/
 celeryconfig.py
 core/Main.java
 core/Main.class
+
+settings.py
+util/settings.py
