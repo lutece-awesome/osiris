@@ -23,7 +23,7 @@ def compile( submission ):
             tty = True,
             detach = True)
         status, info = s.exec_run(
-                    cmd = submission.language.value.compile_command.format(
+                    cmd = 'timeout ' + str(settings.COMPILE_TIMEOUT) + ' ' + submission.language.value.compile_command.format(
                     sourcefile = submission.sourcefile))
         status = int( status )
         info = info.decode( 'utf-8' )
@@ -34,4 +34,8 @@ def compile( submission ):
             s.remove( force = True ) # No matter how this container work, we should remove this container force finally
     if status == 0:
         return 'Success' , None
+    elif status is 124:
+        info = 'Compile time out'
+    else:
+        info = 'You wanna hack me? exit code is ' + str( status )
     return Judge_result.CE , info[:min( len(info) , settings.max_compile_error_length )]
