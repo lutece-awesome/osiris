@@ -17,8 +17,11 @@ Judge core based on Celery and Docker.
 + Ruby 2.5.1
 + Rust 1.25.0
 
-## Coming Language
+## Upcoming Update
 
+Use Linux Control Groups limit the run-time resrouce
+
+New Language Support
 + Javascript
 + Matlab
 
