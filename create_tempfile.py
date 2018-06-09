@@ -16,5 +16,5 @@ def create_tempfile( sourcefile , lang , code , work_dir ):
         f.write( code )
         f.close()
     except Exception as e:
-        return Judge_result.JE , 'Can not create target file'
+        raise RuntimeError( 'Can not create target file' )
     return 'Success' , None

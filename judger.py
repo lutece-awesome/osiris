@@ -13,12 +13,6 @@ def judge_submission( submission ):
         Judge the target submission
     '''
     if submission.language is None:
-        upload_result( Report(
-            result = Judge_result.JE,
-            case = 1,
-            complete = True,            
-            submission = submission.submission,
-            additional_info = 'Unknown language' ))
         raise RuntimeError( 'Unknown Language' )
     else:
         upload_result( Report(
@@ -26,39 +20,27 @@ def judge_submission( submission ):
             submission = submission.submission ))
     st , info = pull( lock = gloal_problem_lock.get( submission.problem ) , problem = submission.problem )
     if not st:
-        upload_result( Report(
-            result = Judge_result.JE,
-            case = 1,
-            complete = True,            
-            submission = submission.submission,
-            additional_info = 'Can not pull data' ))
         raise RuntimeError( "Pull error: " + str( info ) )
     st , info = create_tempfile(
         sourcefile = submission.sourcefile,
         work_dir = submission.work_dir,
         lang = submission.language,
-        code = submission.code
-    )
+        code = submission.code)
     if st != 'Success':
-        upload_result( Report(
-                result = result,
-                case = 1,
-                complete = True,                
-                submission = submission.submission,
-                additional_info = info))
         raise RuntimeError( "Judger Error during creating tempfile: " + str( info ) )
     if submission.language.value.compile is True:
         result , information = compile( 
             submission = submission)
-        if result is Judge_result.JE or result is Judge_result.CE:
+        if result is Judge_result.CE:
             upload_result( Report(
                 result = result,
                 case = 1,
                 complete = True,
                 submission = submission.submission,
                 additional_info = information))
-            if result is Judge_result.JE:
-                raise RuntimeError( "Judger Error during compiling: " + str( information ) )
+            return
+        elif result is Judge_result.JE:
+            raise RuntimeError( "Judger Error during compiling: " + str( information ) )
             return
     submission.case = get_test_case( submission.problem )
     if len( submission.case ) == 0:

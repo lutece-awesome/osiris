@@ -7,6 +7,7 @@ from submission.models import Submission
 from parser import parse
 from os import path
 from util.problem_locker import gloal_problem_lock
+from judge_result import Judge_result
 
 
 app = Celery(
@@ -30,6 +31,14 @@ def JudgingProcess( submission ):
         print( name , 'got submission, start juding(%s)' % ( str( sub.submission ) )  )
         judge_submission( sub )
     except Exception as e:
+        from update import upload_result
+        from report.models import Report
+        upload_result( Report(
+            result = Judge_result.JE,
+            case = 1,
+            complete = True,
+            submission = sub.submission,
+            additional_info = str( e ) ))
         print( name , 'error happen:' , str( e ) )
     finally:
         sep.release()
