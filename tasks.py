@@ -35,10 +35,9 @@ def JudgingProcess( submission ):
         from report.models import Report
         upload_result( Report(
             result = Judge_result.JE,
-            case = 1,
             complete = True,
             submission = sub.submission,
-            additional_info = str( e ) ))
+            judgererror_msg = str( e ) ))
         print( name , 'error happen:' , str( e ) )
     finally:
         sep.release()

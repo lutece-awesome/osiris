@@ -10,6 +10,8 @@ class Report:
         'time_cost',
         'memory_cost',
         'additional_info',
+        'compileerror_msg',
+        'judgererror_msg',
         'case',
         'complete',
         '_field'

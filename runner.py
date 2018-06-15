@@ -61,6 +61,8 @@ def run( sub ):
             upload_result( report = Report( ** output ) )
             if output['result'] is not Judge_result.AC:
                 break
+    except Exception as e:
+        raise RuntimeError( "Judger Error during running: " + str( e ) )
     finally:
         if 's' in dir():
             s.remove( force = True )
