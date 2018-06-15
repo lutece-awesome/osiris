@@ -10,27 +10,27 @@ def run( sub ):
     '''
         Run target submission
     '''
-    client = docker.from_env()
-    running_core_file = 'core.bin'
-    running_checker_file = sub.checker + '.bin'
-    running_source_file = sub.sourcefile + sub.language.value.running_extension
-    upload_result( Report(
-        result = Judge_result.RN,
-        submission = sub.submission ))
-    s = client.containers.run(
-        image = docker_repo_arguments.format(
-            repo_lang = sub.language.value.image),
-        volumes={
-            sub.data_dir : {'bind':  '/opt' , 'mode':'rw' }, # mount data
-            path.join( core_dir , running_core_file ) : { 'bind': path.join( '/home' , running_core_file ) , 'mode':'rw' }, # mount core
-            path.join( checker_dir , running_checker_file ) : { 'bind': path.join( '/home' , running_checker_file ) , 'mode':'rw' }, # mount checker
-            path.join( sub.work_dir , running_source_file )  : { 'bind': path.join( '/home' , running_source_file ) , 'mode':'rw' }}, # mount target program},
-        network_disabled = True,
-        cpuset_cpus = '1',
-        working_dir = '/home',
-        tty = True,
-        detach = True)
     try:
+        client = docker.from_env()
+        running_core_file = 'core.bin'
+        running_checker_file = sub.checker + '.bin'
+        running_source_file = sub.sourcefile + sub.language.value.running_extension
+        upload_result( Report(
+            result = Judge_result.RN,
+            submission = sub.submission ))
+        s = client.containers.run(
+            image = docker_repo_arguments.format(
+                repo_lang = sub.language.value.image),
+            volumes = {
+                sub.data_dir : {'bind':  '/opt' , 'mode':'rw' }, # mount data
+                path.join( core_dir , running_core_file ) : { 'bind': path.join( '/home' , running_core_file ) , 'mode':'rw' }, # mount core
+                path.join( checker_dir , running_checker_file ) : { 'bind': path.join( '/home' , running_checker_file ) , 'mode':'rw' }, # mount checker
+                path.join( sub.work_dir , running_source_file )  : { 'bind': path.join( '/home' , running_source_file ) , 'mode':'rw' }}, # mount target program},
+            network_disabled = True,
+            cpuset_cpus = '1',
+            working_dir = '/home',
+            tty = True,
+            detach = True)
         # make user's program can not read answer file
         s.exec_run( privileged = True , cmd = 'chmod -R 700 /opt' )
         s.exec_run( privileged = True , cmd = 'chmod 700 ' + str( running_core_file ) + ' ' + str( running_checker_file ))
@@ -53,6 +53,7 @@ def run( sub ):
             output['result'] = get_judge_result( output['result'] )
             output['case'] = i + 1
             output['submission'] = sub.submission
+            print( exit_code , output )
             if output['result'] is Judge_result.AC and i != len( sub.case ) - 1:
                 output['complete'] = False
             else:
@@ -61,4 +62,5 @@ def run( sub ):
             if output['result'] is not Judge_result.AC:
                 break
     finally:
-        s.remove( force = True )
+        if 's' in dir():
+            s.remove( force = True )
