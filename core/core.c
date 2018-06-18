@@ -52,7 +52,7 @@ void genrate_checker_command(){
 }
 
 void wait_to_kill_childprocess(){
-    sleep( timelimit << 1 );
+    sleep( ( ( timelimit + 999 ) / 1000 ) << 1 );
     kill( pid , 9 );
     Exceeded_wall_clock_time = 1;
 }
@@ -98,7 +98,7 @@ int main( int argc , char * argv[] ){
     }else if( pid == 0 ){
         if( freopen( input_sourcefile , "r" , stdin ) == NULL ) errExit( "Can not redirect stdin" );
         if( freopen( output_sourcefile , "w" , stdout ) == NULL ) errExit( "Can not redirect stdout" );
-        if( setuid( judge_user ) ) errExit( "Can not set uid" );
+        //if( setuid( judge_user ) ) errExit( "Can not set uid" );
         set_limit( RLIMIT_CPU , ( timelimit + 999 ) / 1000 , 1 ); // set cpu_time limit
         set_limit( RLIMIT_DATA , memorylimit , 0 ); // set memory limit, extra memory : 1mb
         set_limit( RLIMIT_FSIZE , outputlimit , 0 ); // set output limit
