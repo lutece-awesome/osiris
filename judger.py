@@ -40,14 +40,8 @@ def judge_submission( submission ):
             return
         elif result is Judge_result.JE:
             raise RuntimeError( "Judger Error during compiling: " + str( information ) )
-            return
     submission.case = get_test_case( submission.problem )
     if len( submission.case ) == 0:
-        upload_result( Report(
-                result = Judge_result.JE,
-                complete = True,
-                submission = submission.submission,
-                judgererror_msg = 'No test-case'))
         raise RuntimeError( "Judger Error, because there is no test-data" )
     submission.data_dir = get_data_dir( get_data_dir( submission.problem ) )
     run( sub = submission )
