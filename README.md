@@ -61,7 +61,7 @@ New Language Support
 
 ## Config
 
-+ Edit util/settings.py
++ Edit `util/settings.py`
     ```
     cp util/settings.py.template util/settings.py
     FETCH_DATA_ADDR = Lutece.address
@@ -69,21 +69,18 @@ New Language Support
     ! You may pay attention to http or https
     ```
 
-+ Edit settings.py
++ Edit `settings.py`
     ```
     cp settings.py.template settings.py
     MAX_JUDGE_PROCESS = the number of worker process
     ```
 
-+ Edit celeryconfig.py
++ Edit `celeryconfig.py`
     ```
     cp celeryconfig.py.template celeryconfig.py
     rabbitmq_ip = Lutece.address
     rabbitmq_pwd = Lutece.rabbitmq.judge_user.password
     ```
 
-## Run:
+## Run
     sh run_worker.sh
-
-## Close
-    Press Ctrl + c close worker
