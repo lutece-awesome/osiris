@@ -1,5 +1,6 @@
 import docker
 from os import path
+import posixpath
 from json import loads
 from settings import docker_repo_arguments, core_dir, checker_dir, running_arguments
 from update import upload_result
@@ -23,9 +24,9 @@ def run( sub ):
                 repo_lang = sub.language.value.image),
             volumes = {
                 sub.data_dir : {'bind':  '/opt' , 'mode':'rw' }, # mount data
-                path.join( core_dir , running_core_file ) : { 'bind': path.join( '/home' , running_core_file ) , 'mode':'rw' }, # mount core
-                path.join( checker_dir , running_checker_file ) : { 'bind': path.join( '/home' , running_checker_file ) , 'mode':'rw' }, # mount checker
-                path.join( sub.work_dir , running_source_file )  : { 'bind': path.join( '/home' , running_source_file ) , 'mode':'rw' }}, # mount target program},
+                path.join( core_dir , running_core_file ) : { 'bind': posixpath.join( '/home' , running_core_file ) , 'mode':'rw' }, # mount core
+                path.join( checker_dir , running_checker_file ) : { 'bind': posixpath.join( '/home' , running_checker_file ) , 'mode':'rw' }, # mount checker
+                path.join( sub.work_dir , running_source_file )  : { 'bind': posixpath.join( '/home' , running_source_file ) , 'mode':'rw' }}, # mount target program},
             network_disabled = True,
             cpuset_cpus = '1',
             working_dir = '/home',
@@ -41,9 +42,9 @@ def run( sub ):
                 memory_limit = sub.memory_limit * 1024 * 1024,
                 output_limit = sub.output_limit * 1024 * 1024,
                 stack_limit = sub.stack_limit * 1024 * 1024,
-                input_sourcefile = path.join( '/opt' , x[0] ),
+                input_sourcefile = posixpath.join( '/opt' , x[0] ),
                 output_sourcefile = 'user.out',
-                answer_sourcefile = path.join( '/opt' , x[1] ),
+                answer_sourcefile = posixpath.join( '/opt' , x[1] ),
                 running_arguments = sub.language.value.running_command.format( sourcefile = sub.sourcefile ),
                 checker_sourcefile = sub.checker)
             ret = s.exec_run(
