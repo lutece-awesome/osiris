@@ -28,72 +28,62 @@ New Language Support
 ## Installation
 
 + Install submodule
-<pre>
+    ```
     git submodule init
     git submodule update
-</pre>
+    ```
 
 + Install [`docker-ce`](https://docs.docker.com/install/linux/docker-ce/ubuntu/#install-docker-ce-1)
 
 + Install requirements
-<pre>
+    ```
     pip3 install -r requirements/requirements.txt
-</pre>
+    ```
 
 + Install judger's image
-<pre>
+    ```
     cd deploy && python3 deploy.py
-</pre>
+    ```
 
-+ Install checker from testlib
-<pre>
-    cd checker && python3 install.py
-</pre>
-
-+ Compile core
-<pre>
-    cd core && gcc -o core.bin core.c -O2 -lpthread
-</pre>
++ Build checker from testlib and compile core
+    ```
+    python3 build.py
+    ```
 
 + Install rabbitmq-server
-
-<pre>
+    ```
     sudo apt-get update
     sudo apt-get install rabbitmq-server
     sudo systemctl enable rabbitmq-server
     sudo systemctl start rabbitmq-server
     sudo systemctl status rabbitmq-server
-</pre>
+    ```
 
 ## Config
 
 + Edit util/settings.py
-<pre>
+    ```
     cp util/settings.py.template util/settings.py
     FETCH_DATA_ADDR = Lutece.address
     FETCH_DATA_AUTHKEY = Lutece.data_server.authkey
     ! You may pay attention to http or https
-</pre>
+    ```
 
 + Edit settings.py
-<pre>
+    ```
     cp settings.py.template settings.py
     MAX_JUDGE_PROCESS = the number of worker process
-</pre>
+    ```
 
 + Edit celeryconfig.py
-<pre>
+    ```
     cp celeryconfig.py.template celeryconfig.py
     rabbitmq_ip = Lutece.address
     rabbitmq_pwd = Lutece.rabbitmq.judge_user.password
-</pre>
+    ```
 
 ## Run:
-<pre>
     sh run_worker.sh
-</pre>
 
 ## Close
-<pre>
-    Press ctrl + c close worker
-</pre>
+    Press Ctrl + c close worker
