@@ -97,7 +97,7 @@ def pull(lock, problem):
         if md5_validator == True and check_cache(problem):
             return True, None
         recv = pull_data(problem, 'test-data')
-        if not recv or not rewrite(problem, recv):
+        if recv == None or not rewrite(problem, recv):
             return False, 'can not recv data or rewrite data to disk'
         return True, None
     except RuntimeError:
