@@ -1,8 +1,5 @@
 from os import path, getcwd
 
-# process number of judge, eq the cpu cores is better
-MAX_JUDGE_PROCESS = 4
-
 # compile settings
 COMPILE_TIMEOUT = 10.0 # 10.0 seconds
 COMPILE_MEMORY = '256mb'

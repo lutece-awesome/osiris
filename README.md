@@ -72,12 +72,12 @@ New Language Support
 + Edit `settings.py`
     ```
     cp settings.py.template settings.py
-    MAX_JUDGE_PROCESS = the number of worker process
     ```
 
 + Edit `celeryconfig.py`
     ```
     cp celeryconfig.py.template celeryconfig.py
+    worker_concurrency = the number of worker process
     rabbitmq_ip = Lutece.address
     rabbitmq_pwd = Lutece.rabbitmq.judge_user.password
     ```

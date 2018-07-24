@@ -2,13 +2,15 @@
 '''
     Basic settings
 '''
+worker_concurrency = 4
+
 rabbitmq_ip = 'Lutece.ip'
 rabbitmq_port = '5672'
 rabbitmq_user = 'task_user'
 rabbitmq_pwd = 'Lutece.task_user password'
 rabbitmq_vhost = 'judger_host'
 
-broker = 'pyamqp://{user}:{pwd}@{ip}:{port}/{vhost}'.format(
+broker_url = 'pyamqp://{user}:{pwd}@{ip}:{port}/{vhost}'.format(
     user = rabbitmq_user,
     pwd = rabbitmq_pwd,
     ip = rabbitmq_ip,

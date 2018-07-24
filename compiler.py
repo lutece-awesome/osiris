@@ -19,7 +19,7 @@ def compile( submission ):
             volumes = { submission.work_dir : {'bind':  '/opt' , 'mode':'rw' } },
             working_dir = '/opt',
             mem_limit = settings.COMPILE_MEMORY,
-            auto_remove = False,
+            auto_remove = True,
             tty = True,
             detach = True)
         status, info = s.exec_run(
