@@ -97,8 +97,10 @@ def pull(lock, problem):
         if md5_validator == True and check_cache(problem):
             return True, None
         recv = pull_data(problem, 'test-data')
-        if recv == None or not rewrite(problem, recv):
-            return False, 'can not recv data or rewrite data to disk'
+        if recv == None:
+            return False, 'can not recv data'
+        if not rewrite(problem, recv):
+            return False, 'rewrite data to disk'
         return True, None
     except RuntimeError:
         return False, 'Pull-data time out'
