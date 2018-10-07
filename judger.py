@@ -29,7 +29,7 @@ def judge_submission( submission ):
     if st != 'Success':
         raise RuntimeError( "Judger Error during creating tempfile: " + str( info ) )
     if submission.language.value.compile is True:
-        result , information = compile( 
+        result , information = compile(
             submission = submission)
         if result is Judge_result.CE:
             upload_result( Report(
